@@ -1,0 +1,14 @@
+@import '../styles/variables';
+
+:host {
+  display: flex;
+
+  .main {
+    flex: 1 0 auto;
+
+    &:not(.-public) {
+      background-color: $light-grey;
+      padding: 30px;
+    }
+  }
+}

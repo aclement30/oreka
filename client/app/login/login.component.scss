@@ -1,0 +1,70 @@
+@import '../../styles/variables';
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: url('../../assets/wallpaper-glare.jpg');
+  background-size: cover;
+
+  .wrapper {
+    padding-top: 300px;
+  }
+
+  .banner {
+    background-color: $base-color;
+    padding: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+  }
+
+  .left {
+    flex: 1 0 50%;
+    text-align: right;
+    margin-right: 50px;
+
+    h1 {
+      margin: 0;
+      text-transform: uppercase;
+      font-weight: 400;
+      font-size: 68px;
+      line-height: 1em;
+      font-family: 'Viga', sans-serif;
+    }
+
+    .tagline {
+      font-weight: 300;
+    }
+
+    .logo {
+      height: 50px;
+    }
+  }
+
+  .right {
+    flex: 1 0 50%;
+    margin-left: 50px;
+  }
+
+  .copyright {
+    color: white;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    text-align: center;
+    font-size: smaller;
+    padding: 20px;
+    opacity: 0.5;
+
+    a {
+      color: white;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

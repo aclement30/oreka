@@ -1,0 +1,4 @@
+<sidebar *ngIf="isUserAuthenticated"></sidebar>
+<div class="main" [class.-public]="!isUserAuthenticated">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,13 @@
+<header>
+  <div class="cell">&nbsp;</div>
+  <div class="cell">Transaction</div>
+  <div class="cell">Date</div>
+  <div class="cell">Montant</div>
+</header>
+
+<div class="row" *ngFor="let transaction of transactions">
+  <div class="cell paid-by">{{ transaction.paidBy }}</div>
+  <div class="cell description">{{ transaction.description }}<br><span class="category">{{ transaction.category }}</span></div>
+  <div class="cell date">{{ transaction.date }}</div>
+  <div class="cell amount">{{ transaction.amount }}</div>
+</div>

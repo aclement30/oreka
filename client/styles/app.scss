@@ -1,0 +1,15 @@
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+// Partials
+@import "partials/card";
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 200;
+  box-sizing: border-box;
+}
