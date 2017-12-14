@@ -18,6 +18,9 @@ export function userReducer(state = initialState, action: userActions.Actions): 
         currentUser: action.payload
       };
 
+    case userActions.RESET_USER:
+      return initialState;
+
     default: {
       return state;
     }

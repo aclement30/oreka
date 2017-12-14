@@ -32,6 +32,9 @@ export function categoriesReducer(state = initialState, action: categoryActions.
         selected: null,
       };
 
+    case categoryActions.RESET_CATEGORIES:
+      return initialState;
+
     default: {
       return state;
     }

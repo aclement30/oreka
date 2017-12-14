@@ -5,10 +5,37 @@
 
   .main {
     flex: 1 0 auto;
+    overflow: auto;
 
     &:not(.-public) {
       background-color: $light-grey;
       padding: 30px;
+
+      /deep/ router-outlet + * {
+        display: block;
+        position: relative;
+
+        h2 {
+          margin-top: 0;
+          font-weight: 200;
+
+          button {
+            float: right;
+            position: relative;
+            top: -3px;
+            color: white;
+            background-color: $base-color;
+            font-weight: 200;
+            letter-spacing: 0.05em;
+          }
+
+          &::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+        }
+      }
     }
   }
 }

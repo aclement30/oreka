@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 :host {
   display: table;
   width: 100%;
@@ -8,6 +10,10 @@
 
     .cell {
       border-bottom: 2px solid #ddd;
+
+      &.amount {
+        text-align: right;
+      }
     }
   }
 
@@ -36,8 +42,53 @@
       }
     }
 
+    &.notes {
+      color: gray;
+    }
+
     &.amount {
       text-align: right;
     }
+
+    &.actions {
+      padding-top: 4px;
+      padding-bottom: 4px;
+      text-align: right;
+
+      button {
+        width: 30px;
+        height: 30px;
+        color: rgba(#272930, 0.75);
+
+        mat-icon {
+          vertical-align: baseline;
+          font-size: 20px;
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+        }
+
+        &.edit:hover {
+          color: #272930;
+        }
+
+        &.remove:hover {
+          color: red;
+        }
+      }
+    }
+
+    &:first-of-type {
+      padding-left: 20px;
+      width: 32px;
+    }
+    &:last-of-type {
+      padding-right: 20px;
+    }
+  }
+
+  avatar {
+    width: 32px;
+    height: 32px;
   }
 }

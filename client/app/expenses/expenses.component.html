@@ -1,0 +1,19 @@
+<header>
+  <h2>
+    Dépenses
+    <button type="button" mat-raised-button (click)="addExpense()">Ajouter une dépense</button>
+  </h2>
+</header>
+
+<div class="card"
+     infiniteScroll
+     [infiniteScrollContainer]="'.main'"
+     [fromRoot]="true"
+     [infiniteScrollDisabled]="lastPageReached"
+     (scrolled)="onScroll()">
+  <transactions-list [transactions]="expenses$ | async" (onRemove)="removeExpense($event)"></transactions-list>
+</div>
+
+<div class="infinite-scroll-loading" *ngIf="loading">
+  <hr><span>Chargement des données...</span>
+</div>

@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 
 :host {
-  width: 280px;
+  width: 180px;
   background-color: #272930;
 
   header {
@@ -20,6 +20,12 @@
 
     .logo {
       height: 24px;
+    }
+
+    @media screen and (max-width: 1000px) {
+      .logo {
+        display: none;
+      }
     }
   }
 

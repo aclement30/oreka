@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
-import { AuthService } from './auth.service';
+import { GoogleAuthService } from './services/google-auth.service';
+import { AuthService } from './services/auth.service';
 
 declare const oreka: any;
 
@@ -12,16 +14,34 @@ declare const oreka: any;
 
 export class AppComponent implements OnInit {
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private googleAuthService: GoogleAuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
-    this.authService.waitForGoogleApi();
+    this.googleAuthService.waitForGoogleApi();
 
-    oreka.onAuthenticationFailure = this.authService.onAuthenticationFailure;
+    this.authService.initUser().subscribe((isAuthenticated: boolean) => {
+      if (isAuthenticated) {
+        // Retrieve user base data from server
+        this.authService.loadBaseData()
+          .subscribe((data: any) => {
+            if (this.router.url === '/login') {
+              this.router.navigate(['/dashboard']);
+            }
+          });
+      } else {
+        if (this.router.url !== '/login') {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
   }
 
   logout() {
-    this.authService.logoutUser();
+    this.authService.logoutUser().subscribe();
   }
 
   get isUserAuthenticated(): boolean {

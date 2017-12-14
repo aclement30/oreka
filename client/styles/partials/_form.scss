@@ -1,0 +1,77 @@
+form {
+  .row {
+    display: flex;
+    margin-left: -10px;
+    margin-right: -10px;
+
+    > .field {
+      flex: 1 0 50%;
+      padding: 0 10px;
+    }
+  }
+
+  .input-group {
+    display: flex;
+    align-items: center;
+
+    > * {
+      padding: 0 10px;
+    }
+  }
+
+  .field {
+    margin-bottom: 20px;
+    box-sizing: border-box;
+
+    label:first-child {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    &.radio {
+      input + label {
+        margin-right: 20px;
+      }
+
+      .input-group label {
+        padding: 8px 5px;
+      }
+    }
+
+    &.-full-width {
+      input:not([type="radio"]):not([type="checkbox"]),
+      select,
+      textarea {
+        width: 100%;
+      }
+    }
+
+    &.-error {
+      color: red;
+
+      label {
+        color: red;
+      }
+
+      input,
+      select,
+      textarea {
+        border-color: red;
+      }
+    }
+  }
+
+  .form-control {
+    padding: 6px 8px;
+    border-radius: 3px;
+    box-shadow: none;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 14px;
+    background-color: white;
+    height: 31px;
+    box-sizing: border-box;
+  }
+}

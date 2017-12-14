@@ -1,0 +1,33 @@
+@import '../variables';
+
+.mat-dialog-container {
+  padding: 0 !important;
+}
+
+.mat-dialog-title {
+  background-color: $base-color;
+  color: white;
+  font-weight: 200;
+  letter-spacing: 0.05em;
+  padding: 12px 24px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.mat-dialog-content {
+  margin: 0 !important;
+}
+
+.mat-dialog-actions {
+  padding: 12px 24px !important;
+  justify-content: flex-end;
+
+  button {
+    font-weight: 200;
+    letter-spacing: 0.05em;
+  }
+
+  button:last-of-type {
+    background-color: $base-color;
+    color: white;
+  }
+}

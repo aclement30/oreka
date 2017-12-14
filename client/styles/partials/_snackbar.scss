@@ -1,0 +1,20 @@
+@import '../variables';
+
+.mat-snack-bar-container {
+  &.server-error {
+    background-color: darken($red, 10);
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    min-width: inherit;
+    padding-left: 50px;
+
+    &::before {
+      font-family: "Material Icons";
+      content: "error_outline";
+      font-size: 22px;
+      position: absolute;
+      left: 20px;
+      top: 12px;
+    }
+  }
+}
