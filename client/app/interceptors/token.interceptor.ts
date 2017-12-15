@@ -12,6 +12,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/empty';
 
 import { AuthService } from '../services/auth.service';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -33,6 +34,10 @@ export class TokenInterceptor implements HttpInterceptor {
       if (error instanceof HttpErrorResponse && error.status === 401) {
         const authService = this.injector.get(AuthService);
         authService.logoutUser().subscribe(() => {
+          const snackBar = this.injector.get(MatSnackBar);
+          const notice = snackBar.open('Vous avez été déconnecté suite à l\'expiration de la session.', 'OK', { duration: 3000 });
+          notice.onAction().subscribe(() => { notice.dismiss(); });
+
           const router = this.injector.get(Router);
           if (router.url !== '/login') {
             router.navigate(['/login']);
