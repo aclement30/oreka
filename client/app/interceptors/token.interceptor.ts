@@ -1,4 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   HttpRequest,
   HttpHandler,
@@ -7,6 +8,8 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/observable/empty';
 
 import { AuthService } from '../services/auth.service';
 
@@ -29,8 +32,27 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request).do((event: HttpEvent<any>) => {}, (error: any) => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
         const authService = this.injector.get(AuthService);
-        authService.logoutUser().subscribe();
+        authService.logoutUser().subscribe(() => {
+          const router = this.injector.get(Router);
+          if (router.url !== '/login') {
+            router.navigate(['/login']);
+          }
+        });
+
+        // REQUEST RETRY DOES NOT WORK
+        // return authService.refreshAccessToken()
+        //   .switchMap(() => {
+        //     // Retry failed request if token refresh is successful
+        //     return next.handle(request);
+        //   })
+        //   .catch(() => {
+        //     return Observable.empty();
+        //   });
+
+        return Observable.empty();
       }
+
+      return Observable.throw(error);
     });
   }
 }

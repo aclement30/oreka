@@ -12,7 +12,7 @@ declare const gapi: any;
 @Injectable()
 export class GoogleAuthService {
 
-  userAuthenticated$ = new BehaviorSubject<string>(null);
+  userAuthenticated$ = new BehaviorSubject<string | boolean>(null);
   private apiLoaded$ = new AsyncSubject<boolean>();
 
   constructor(
@@ -37,7 +37,7 @@ export class GoogleAuthService {
       })
       .do(() => {
         console.log('User signed out.');
-        this.userAuthenticated$.next(null);
+        this.userAuthenticated$.next(false);
       });
   }
 
@@ -65,10 +65,9 @@ export class GoogleAuthService {
     this.zone.run(() => {
       if (googleUser.isSignedIn()) {
         const token = googleUser.getAuthResponse().id_token;
-
         this.userAuthenticated$.next(token);
       } else {
-        this.userAuthenticated$.next(null);
+        this.userAuthenticated$.next(false);
       }
     });
   }

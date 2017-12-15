@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
+import 'rxjs/add/observable/throw';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import { API_ENDPOINT } from '../config';
@@ -20,6 +21,7 @@ import { GoogleAuthService } from './google-auth.service';
 export class AuthService {
   redirectUrl: string;
 
+  private tokenRefreshRequest$: Observable<string>;
   private token: string;
 
   constructor(
@@ -56,8 +58,27 @@ export class AuthService {
       })
       .catch(() => {
         this.clearLocalUser();
-        return Observable.of(null);
+        return Observable.throw('Error while authenticating with backend server');
       });
+  }
+
+  // DOES NOT WORK
+  refreshAccessToken(): Observable<string> {
+    // Skip is token refresh process is already ongoing
+    if (this.tokenRefreshRequest$) {
+      return this.tokenRefreshRequest$;
+    }
+
+    const googleToken = this.googleAuthService.userAuthenticated$.getValue();
+    if (googleToken === null) {
+      return this.tokenRefreshRequest$ = this.googleAuthService.userAuthenticated$
+        .filter((token) => (token !== null))
+        .flatMap((token: string | boolean): Observable<string> => {
+          return this._exchangeGoogleAuthToken(token);
+        });
+    }
+
+    return this._exchangeGoogleAuthToken(googleToken);
   }
 
   loadBaseData(): Observable<any> {
@@ -93,16 +114,20 @@ export class AuthService {
     return forkJoin([
       this.googleAuthService.logoutUser(),
       Observable.of(this.clearLocalUser()),
-    ])
-      .do(() => {
-        if (this.router.url !== '/login') {
-          this.router.navigate(['/login']);
-        }
-      });
+    ]);
   }
 
   get isAuthenticated(): boolean {
     return !!this.token;
+  }
+
+  private _exchangeGoogleAuthToken(googleToken: string | boolean): Observable<string> {
+    if (googleToken === false) {
+      return Observable.throw('Google user is not authenticated');
+    }
+
+    return this.tokenRefreshRequest$ = this.requestAccessToken(googleToken as string)
+      .do(() => { this.tokenRefreshRequest$ = null; });
   }
 
   /**

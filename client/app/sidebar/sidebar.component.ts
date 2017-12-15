@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -24,6 +25,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private router: Router,
     private store: Store<AppState>,
   ) {}
 
@@ -37,6 +39,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.authService.logoutUser().subscribe();
+    this.authService.logoutUser().subscribe(() => {
+      if (this.router.url !== '/login') {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }
