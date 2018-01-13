@@ -41,6 +41,13 @@ export class ExpenseFormComponent extends TransactionFormComponent implements On
   }
 
   buildForm(transaction: Expense = null): FormGroup {
+    let transactionDate = new Date();
+
+    if (transaction) {
+      const dateComponents = transaction.date.split('-').map(dc => parseInt(dc, 10));
+      transactionDate = new Date(dateComponents[0], dateComponents[1] - 1, dateComponents[2]);
+    }
+
     return this.formBuilder.group({
       id: transaction ? transaction.id : null,
       amount: new FormControl(transaction ? transaction.amount : null, [Validators.required]),
@@ -49,7 +56,7 @@ export class ExpenseFormComponent extends TransactionFormComponent implements On
       payerId: transaction ? transaction.payerId : this.userId,
       payerShare: transaction ? transaction.payerShare : 0,
       categoryId: transaction ? transaction.categoryId : null,
-      date: new FormControl(transaction ? transaction.date : new Date(), [Validators.required]),
+      date: new FormControl(transactionDate, [Validators.required]),
       notes: transaction ? transaction.notes : null,
     });
   }
