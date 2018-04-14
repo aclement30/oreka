@@ -1,15 +1,14 @@
 @import '../../styles/variables';
 
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
   width: 100%;
   height: 100%;
   background: url('../../assets/wallpaper-glare.jpg');
   background-size: cover;
-
-  .wrapper {
-    padding-top: 300px;
-  }
 
   .banner {
     background-color: $base-color;
@@ -66,19 +65,31 @@
     }
   }
 
-  .copyright {
-    color: white;
+  footer {
     position: absolute;
     width: 100%;
     bottom: 0;
     text-align: center;
     font-size: smaller;
     padding: 20px;
-    opacity: 0.5;
+    color: rgba(white, 0.5);
+    display: flex;
+    justify-content: center;
+
+    .languages {
+      margin-right: 10px;
+    }
+
+    .copyright {
+      height: 18px;
+      padding-left: 10px;
+      border-left: 1px solid rgba(white, 0.3);
+    }
 
     a {
       color: white;
       text-decoration: none;
+      cursor: pointer;
 
       &:hover {
         text-decoration: underline;

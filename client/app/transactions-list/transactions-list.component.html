@@ -1,9 +1,9 @@
 <header>
   <div class="cell">&nbsp;</div>
-  <div class="cell" *ngIf="type === 'expenses'">Transaction</div>
-  <div class="cell">Date</div>
-  <div class="cell">Note</div>
-  <div class="cell amount">Montant</div>
+  <div class="cell" *ngIf="type === 'expenses'">{{ 'common.transaction' | translate }}</div>
+  <div class="cell">{{ 'common.date' | translate }}</div>
+  <div class="cell">{{ 'common.notes' | translate }}</div>
+  <div class="cell amount">{{ 'common.amount' | translate }}</div>
   <div class="cell" *ngIf="editable"> </div>
 </header>
 

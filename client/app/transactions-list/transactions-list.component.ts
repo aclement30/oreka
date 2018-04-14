@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 import { BaseTransaction } from '../models/transaction.model';
 import { ExpenseFormComponent } from '../expense-form/expense-form.component';
@@ -19,7 +20,8 @@ export class TransactionsListComponent {
   @Output() onRemove = new EventEmitter<BaseTransaction>();
 
   constructor(
-    public dialog: MatDialog,
+    private dialog: MatDialog,
+    private translate: TranslateService,
   ) {}
 
   edit(transaction: BaseTransaction) {
@@ -31,7 +33,7 @@ export class TransactionsListComponent {
   }
 
   remove(transaction: BaseTransaction) {
-    if (confirm('Voulez-vous vraiment effacer cette transaction ?')) {
+    if (confirm(this.translate.instant('common.askRemoveTransaction'))) {
       this.onRemove.emit(transaction);
     }
   }

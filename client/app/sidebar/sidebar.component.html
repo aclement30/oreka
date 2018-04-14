@@ -3,8 +3,8 @@
 </header>
 
 <ul class="menu">
-  <li><a routerLink="/dashboard">Tableau de bord</a></li>
-  <li><a routerLink="/expenses">Dépenses</a></li>
-  <li><a routerLink="/payments">Paiements</a></li>
-  <li><a (click)="logout()">Déconnexion</a></li>
+  <li><a routerLink="/dashboard">{{ 'menu.dashboard' | translate }}</a></li>
+  <li><a routerLink="/expenses">{{ 'menu.expenses' | translate }}</a></li>
+  <li><a routerLink="/payments">{{ 'menu.payments' | translate }}</a></li>
+  <li><a (click)="logout()">{{ 'menu.logout' | translate }}</a></li>
 </ul>

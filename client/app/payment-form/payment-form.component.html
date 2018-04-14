@@ -1,10 +1,10 @@
-<h2 mat-dialog-title>{{ form.value.id ? 'Modifier le paiement' : 'Ajouter un paiement' }}</h2>
+<h2 mat-dialog-title>{{ (form.value.id ? 'paymentForm.editTitle' : 'paymentForm.addTitle') | translate }}</h2>
 
 <mat-dialog-content>
   <form [formGroup]="form">
     <div class="row">
       <div class="field" [class.-error]="form.controls.amount.touched && form.controls.amount.invalid">
-        <label for="amount">Montant</label>
+        <label for="amount">{{ 'common.amount' | translate }}</label>
         <div class="input-group">
           <input type="number" id="amount" class="form-control" formControlName="amount" (change)="onPayerShareChange()">
           <span class="suffix">$</span>
@@ -12,14 +12,14 @@
       </div>
 
       <div class="field notes -full-width" [class.-error]="form.controls.notes.touched && form.controls.notes.invalid">
-        <label for="notes">Notes</label>
+        <label for="notes">{{ 'common.notes' | translate }}</label>
         <input type="text" id="notes" class="form-control" formControlName="notes">
       </div>
     </div>
 
     <div class="row">
       <div class="field radio" [class.-error]="form.controls.payerId.touched && form.controls.payerId.invalid">
-        <label>Payé par</label>
+        <label>{{ 'paymentForm.paidBy' | translate }}</label>
         <div class="input-group">
           <ng-container *ngFor="let member of (coupleMembers$ | async)">
             <input type="radio" id="payer-{{ member.id }}" formControlName="payerId" [value]="member.id" (change)="onPayerShareChange()"> <label for="payer-{{ member.id }}">{{ member.firstName }}</label>
@@ -28,7 +28,7 @@
       </div>
 
       <div class="field" [class.-error]="form.controls.date.touched && form.controls.date.invalid">
-        <label for="date">Date</label>
+        <label for="date">{{ 'common.date' | translate }}</label>
         <input type="text" id="date" class="form-control" formControlName="date" [matDatepicker]="picker">
         <span class="suffix"><mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle></span>
         <mat-datepicker #picker></mat-datepicker>
@@ -38,6 +38,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>Annuler</button>
-  <button mat-raised-button (click)="submit()">Enregistrer</button>
+  <button mat-button mat-dialog-close>{{ 'common.actions.cancel' | translate }}</button>
+  <button mat-raised-button (click)="submit()">{{ 'common.actions.save' | translate }}</button>
 </mat-dialog-actions>

@@ -2,14 +2,21 @@
   <div class="banner mat-elevation-z1">
     <div class="left">
       <h1><img src="../../assets/logo-white-large.png" class="logo"> Oreka</h1>
-      <div class="tagline">Gestion de portefeuille</div>
+      <div class="tagline">{{ 'common.tagline' | translate }}</div>
     </div>
 
     <div class="right">
-      <p>Connectez-vous à votre compte<br>pour continuer.</p>
-      <button mat-raised-button class="google-oauth">Connexion avec Google</button>
+      <p [innerHtml]="'login.invite' | translate"></p>
+      <button mat-raised-button class="google-oauth">{{ 'login.loginWithGoogle' | translate }}</button>
     </div>
   </div>
 </div>
 
-<div class="copyright">&copy; <a href="http://www.alexandreclement.com" target="_blank">Alexandre Clément</a></div>
+<footer>
+  <div class="languages">
+    <a (click)="switchLanguage('en')" *ngIf="language !== 'en'">English</a>
+    <a (click)="switchLanguage('fr')" *ngIf="language !== 'fr'">Français</a>
+  </div>
+
+  <div class="copyright">&copy; <a href="http://www.alexandreclement.com" target="_blank">Alexandre Clément</a></div>
+</footer>

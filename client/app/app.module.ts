@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import 'hammerjs';
 
 // Angular Material
@@ -14,7 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MAT_DATE_LOCALE, MatNativeDateModule, MatSnackBarModule } from '@angular/material';
 import { MatSliderModule } from '@angular/material/slider';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 
 import { AppRouterProvider } from './routes';
 import { reducers } from './store/index';
@@ -40,6 +42,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -77,7 +83,14 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     }),
     StoreDevtoolsModule.instrument({
       maxAge: 10
-    })
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     AuthService,

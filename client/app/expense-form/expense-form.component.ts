@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppState } from '../store/index';
 import { Category } from '../models/category.model';
@@ -30,6 +31,7 @@ export class ExpenseFormComponent extends TransactionFormComponent implements On
     protected snackBar: MatSnackBar,
     protected store: Store<AppState>,
     protected transactionsService: ExpensesService,
+    protected translate: TranslateService,
   ) {
     super(data, dialog, formBuilder, snackBar, store);
   }
@@ -67,7 +69,7 @@ export class ExpenseFormComponent extends TransactionFormComponent implements On
 
   afterSave = (expense: Expense): void => {
     this.store.dispatch(new UpdateExpense(expense));
-    const notice = this.snackBar.open('La dépense a été enregistrée', 'OK', { duration: 3000 });
+    const notice = this.snackBar.open(this.translate.instant('expenseForm.expenseSaved'), 'OK', { duration: 3000 });
     notice.onAction().subscribe(() => { notice.dismiss(); });
     this.dialog.close();
   }

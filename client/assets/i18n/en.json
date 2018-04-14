@@ -1,0 +1,60 @@
+{
+  "common": {
+    "tagline": "Wallet management",
+    "transaction": "Transaction",
+    "amount": "Amount",
+    "description": "Description",
+    "date": "Date",
+    "notes": "Notes",
+    "category": "Category",
+    "loadingData": "Loading data...",
+    "actions": {
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "askRemoveTransaction": "Do you really want to delete this transaction?",
+    "unknownError": "An error occured! (code {{ statusCode }})"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "addExpense": "Add expense",
+    "lastExpenses": "Last expenses",
+    "lastPayments": "Last payments",
+    "owesYou": "owes you",
+    "youOwe": "You owe",
+    "allSquare": "All square!"
+  },
+  "expenseForm": {
+    "addTitle": "Add expense",
+    "editTitle": "Edit expense",
+    "paidBy": "Paid by",
+    "share": "Share",
+    "expenseSaved": "The expense has been saved"
+  },
+  "expenses": {
+    "title": "Expenses",
+    "addExpense": "Add expense",
+    "expenseDeleted": "The expense has been deleted"
+  },
+  "login": {
+    "invite": "Please login with your account<br> to continue.",
+    "loginWithGoogle": "Login with Google"
+  },
+  "menu": {
+    "dashboard": "Dashboard",
+    "expenses": "Expenses",
+    "payments": "Payments",
+    "logout": "Logout"
+  },
+  "paymentForm": {
+    "addTitle": "Add payment",
+    "editTitle": "Edit payment",
+    "paidBy": "Paid by",
+    "paymentSaved": "The payment has been saved"
+  },
+  "payments": {
+    "title": "Payments",
+    "addPayment": "Add payment",
+    "paymentDeleted": "The payment has been deleted"
+  }
+}

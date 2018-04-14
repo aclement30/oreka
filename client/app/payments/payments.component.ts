@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { PaymentsService } from '../services/payments.service';
@@ -29,6 +30,7 @@ export class PaymentsComponent implements OnInit {
     private paymentsService: PaymentsService,
     private snackBar: MatSnackBar,
     private store: Store<AppState>,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -56,7 +58,7 @@ export class PaymentsComponent implements OnInit {
     this.paymentsService.remove(payment).subscribe(() => {
       this.store.dispatch(new RemoveTransaction(payment));
 
-      const notice = this.snackBar.open('Le paiement a été supprimé', 'Annuler');
+      const notice = this.snackBar.open(this.translate.instant('payments.paymentDeleted'), this.translate.instant('common.actions.cancel'));
       notice.onAction().subscribe(() => {
         this.restorePayment(payment);
       });

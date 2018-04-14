@@ -1,7 +1,7 @@
 <header>
   <h2>
-    Paiements
-    <button type="button" mat-raised-button (click)="addPayment()">Ajouter un paiement</button>
+    {{ 'payments.title' | translate }}
+    <button type="button" mat-raised-button (click)="addPayment()">{{ 'payments.addPayment' | translate }}</button>
   </h2>
 </header>
 
@@ -15,5 +15,5 @@
 </div>
 
 <div class="infinite-scroll-loading" *ngIf="loading">
-  <hr><span>Chargement des données...</span>
+  <hr><span>{{ 'common.loadingData' | translate }}</span>
 </div>

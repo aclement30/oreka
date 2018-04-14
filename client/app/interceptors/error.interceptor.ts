@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -8,11 +8,13 @@ import {
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { MatSnackBar } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
   constructor(
+    private injector: Injector,
     private snackBar: MatSnackBar,
   ) {}
 
@@ -21,7 +23,8 @@ export class ErrorInterceptor implements HttpInterceptor {
       const ignoredStatusCodes: number[] = [400, 401, 402, 403];
 
       if (response instanceof HttpErrorResponse && !ignoredStatusCodes.includes(response.status)) {
-        this.snackBar.open(`Une erreur est survenue (code ${response.status})`, null, {
+        const translate = this.injector.get(TranslateService);
+        this.snackBar.open(translate.instant('common.unknownError', { statusCode: response.status }), null, {
           panelClass: 'server-error',
         });
       }

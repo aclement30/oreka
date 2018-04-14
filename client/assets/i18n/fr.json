@@ -1,0 +1,60 @@
+{
+  "common": {
+    "tagline": "Gestion de portefeuille",
+    "transaction": "Transaction",
+    "amount": "Montant",
+    "description": "Description",
+    "date": "Date",
+    "notes": "Notes",
+    "category": "Catégorie",
+    "loadingData": "Chargement des données...",
+    "actions": {
+      "cancel": "Annuler",
+      "save": "Enregistrer"
+    },
+    "askRemoveTransaction": "Voulez-vous vraiment effacer cette transaction ?",
+    "unknownError": "Une erreur est survenue (code {{ statusCode }})"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "addExpense": "Ajouter une dépense",
+    "lastExpenses": "Dernières dépenses",
+    "lastPayments": "Derniers paiements",
+    "owesYou": "vous doit",
+    "youOwe": "Vous devez",
+    "allSquare": "Le compte est bon !"
+  },
+  "expenseForm": {
+    "addTitle": "Ajouter une dépense",
+    "editTitle": "Modifier la dépense",
+    "paidBy": "Payé par",
+    "share": "Partage",
+    "expenseSaved": "La dépense a été enregistrée"
+  },
+  "expenses": {
+    "title": "Dépenses",
+    "addExpense": "Ajouter une dépense",
+    "expenseDeleted": "La dépense a été supprimée"
+  },
+  "login": {
+    "invite": "Connectez-vous à votre compte<br>pour continuer.",
+    "loginWithGoogle": "Connexion avec Google"
+  },
+  "menu": {
+    "dashboard": "Tableau de bord",
+    "expenses": "Dépenses",
+    "payments": "Paiements",
+    "logout": "Déconnexion"
+  },
+  "paymentForm": {
+    "addTitle": "Ajouter un paiement",
+    "editTitle": "Modifier le paiement",
+    "paidBy": "Payé par",
+    "paymentSaved": "Le paiement a été enregistré"
+  },
+  "payments": {
+    "title": "Paiements",
+    "addPayment": "Ajouter un paiement",
+    "paymentDeleted": "Le paiement a été supprimé"
+  }
+}

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AppState } from '../store/index';
 import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
@@ -24,6 +25,7 @@ export class PaymentFormComponent extends TransactionFormComponent implements On
     protected snackBar: MatSnackBar,
     protected store: Store<AppState>,
     protected transactionsService: PaymentsService,
+    protected translate: TranslateService,
   ) {
     super(data, dialog, formBuilder, snackBar, store);
   }
@@ -41,7 +43,7 @@ export class PaymentFormComponent extends TransactionFormComponent implements On
 
   afterSave = (payment: Payment): void => {
     this.store.dispatch(new UpdatePayment(payment));
-    const notice = this.snackBar.open('Le paiement a été enregistré', 'OK', { duration: 3000 });
+    const notice = this.snackBar.open(this.translate.instant('paymentForm.paymentSaved'), 'OK', { duration: 3000 });
     notice.onAction().subscribe(() => { notice.dismiss(); });
     this.dialog.close();
   }
