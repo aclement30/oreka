@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
-import { GoogleAuthService } from './services/google-auth.service';
 import { AuthService } from './services/auth.service';
+import { GoogleAuthService } from './services/google-auth.service';
 
 declare const oreka: any;
 
@@ -17,13 +17,12 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private googleAuthService: GoogleAuthService,
     private router: Router,
     private translate: TranslateService,
   ) {}
 
   ngOnInit() {
-    this.googleAuthService.waitForGoogleApi();
+    (this.authService as GoogleAuthService).waitForGoogleApi();
 
     this.translate.setDefaultLang('fr');
 

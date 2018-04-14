@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/observable/throw';
 import { forkJoin } from 'rxjs/observable/forkJoin';
@@ -15,27 +16,29 @@ import { ResetUser, SetCurrentUser } from '../store/user.actions';
 import { ResetCategories } from '../store/categories.actions';
 import { ResetTransactions } from '../store/transactions.actions';
 import { CategoriesService } from './categories.service';
-import { GoogleAuthService } from './google-auth.service';
 
 @Injectable()
 export class AuthService {
   redirectUrl: string;
 
-  private tokenRefreshRequest$: Observable<string>;
-  private token: string;
+  userAuthenticated$ = new BehaviorSubject<boolean>(null);
+  protected tokenRefreshRequest$: Observable<string>;
+  protected token: string;
 
   constructor(
-    private categoriesService: CategoriesService,
-    private googleAuthService: GoogleAuthService,
-    private http: HttpClient,
-    private store: Store<AppState>,
-    private router: Router,
-  ) {}
+    protected categoriesService: CategoriesService,
+    protected http: HttpClient,
+    protected router: Router,
+    protected store: Store<AppState>,
+  ) {
+    this.userAuthenticated$.filter(isAuthenticated => (isAuthenticated === false)).subscribe(this.onUserDeauthenticated);
+  }
 
   initUser(): Observable<boolean> {
     const accessToken = localStorage.getItem('oreka-token');
     if (accessToken) {
       this.token = accessToken;
+      this.userAuthenticated$.next(true);
       return Observable.of(true);
     }
 
@@ -43,43 +46,32 @@ export class AuthService {
   }
 
   authenticateUser(): Observable<any> {
-    return this.googleAuthService.userAuthenticated$.filter(Boolean)
-      .flatMap((googleToken: string) => {
-        return this.requestAccessToken(googleToken);
-      });
+    return Observable.throw('Error: not implemented');
   }
 
-  requestAccessToken(googleToken: string): Observable<string> {
-    return this.http.post<any>(API_ENDPOINT + '/access_token', { googleToken })
-      .map((data: { token: string }) => {
-        localStorage.setItem('oreka-token', data.token);
-        this.token = data.token;
-        return data.token;
-      })
-      .catch(() => {
-        this.clearLocalUser();
-        return Observable.throw('Error while authenticating with backend server');
-      });
+  logoutUser(): Observable<any>  {
+    this.token = null;
+    return Observable.of(this.clearLocalUser());
   }
 
   // DOES NOT WORK
-  refreshAccessToken(): Observable<string> {
-    // Skip is token refresh process is already ongoing
-    if (this.tokenRefreshRequest$) {
-      return this.tokenRefreshRequest$;
-    }
-
-    const googleToken = this.googleAuthService.userAuthenticated$.getValue();
-    if (googleToken === null) {
-      return this.tokenRefreshRequest$ = this.googleAuthService.userAuthenticated$
-        .filter((token) => (token !== null))
-        .flatMap((token: string | boolean): Observable<string> => {
-          return this._exchangeGoogleAuthToken(token);
-        });
-    }
-
-    return this._exchangeGoogleAuthToken(googleToken);
-  }
+  // refreshAccessToken(): Observable<string> {
+  //   // Skip is token refresh process is already ongoing
+  //   if (this.tokenRefreshRequest$) {
+  //     return this.tokenRefreshRequest$;
+  //   }
+  //
+  //   const googleToken = this.googleAuthService.userAuthenticated$.getValue();
+  //   if (googleToken === null) {
+  //     return this.tokenRefreshRequest$ = this.googleAuthService.userAuthenticated$
+  //       .filter((token) => (token !== null))
+  //       .flatMap((token: string | boolean): Observable<string> => {
+  //         return this._exchangeGoogleAuthToken(token);
+  //       });
+  //   }
+  //
+  //   return this._exchangeGoogleAuthToken(googleToken);
+  // }
 
   loadBaseData(): Observable<any> {
     return forkJoin([
@@ -107,33 +99,23 @@ export class AuthService {
     });
   }
 
-  /**
-   * Logout user
-   */
-  logoutUser(): Observable<any>  {
-    return forkJoin([
-      this.googleAuthService.logoutUser(),
-      Observable.of(this.clearLocalUser()),
-    ]);
-  }
-
   get isAuthenticated(): boolean {
     return !!this.token;
   }
 
-  private _exchangeGoogleAuthToken(googleToken: string | boolean): Observable<string> {
-    if (googleToken === false) {
-      return Observable.throw('Google user is not authenticated');
-    }
-
-    return this.tokenRefreshRequest$ = this.requestAccessToken(googleToken as string)
-      .do(() => { this.tokenRefreshRequest$ = null; });
-  }
+  // private _exchangeGoogleAuthToken(googleToken: string | boolean): Observable<string> {
+  //   if (googleToken === false) {
+  //     return Observable.throw('Google user is not authenticated');
+  //   }
+  //
+  //   return this.tokenRefreshRequest$ = this.requestAccessToken(googleToken as string)
+  //     .do(() => { this.tokenRefreshRequest$ = null; });
+  // }
 
   /**
    * Clearing Localstorage of browser
    */
-  private clearLocalUser(): void {
+  protected clearLocalUser(): void {
     this.store.dispatch(new ResetCategories());
     this.store.dispatch(new ResetCouple());
     this.store.dispatch(new ResetTransactions());
@@ -141,5 +123,11 @@ export class AuthService {
 
     this.token = null;
     localStorage.removeItem('oreka-token');
+  }
+
+  private onUserDeauthenticated = (): void => {
+    if (this.router.url !== '/login') {
+      this.router.navigate(['/login']);
+    }
   }
 }

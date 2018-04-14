@@ -93,11 +93,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
   ],
   providers: [
-    AuthService,
+    {
+      provide: AuthService,
+      useClass: GoogleAuthService,
+    },
     CategoriesService,
     ExpensesService,
     Gatekeeper,
-    GoogleAuthService,
     PaymentsService,
     { provide: MAT_DATE_LOCALE, useValue: 'fr-CH' },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

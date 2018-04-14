@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(
     private authService: AuthService,
     private element: ElementRef,
-    private googleAuthService: GoogleAuthService,
     private router: Router,
     private translate: TranslateService,
   ) {}
@@ -35,7 +34,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.googleAuthService.bindSignInButton(this.element.nativeElement.querySelector('button.google-oauth'));
+    (this.authService as GoogleAuthService).bindSignInButton(this.element.nativeElement.querySelector('button.google-oauth'));
   }
 
   get language(): string {
