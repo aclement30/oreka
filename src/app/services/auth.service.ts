@@ -1,20 +1,16 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/observable/throw';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-
+import { BehaviorSubject, forkJoin, Observable, of, throwError as observableThrowError } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { API_ENDPOINT } from '../config';
-import { AppState } from '../store/index';
 import { User } from '../models/user.model';
-import { ResetCouple, SetCouple } from '../store/couple.actions';
-import { ResetUser, SetCurrentUser } from '../store/user.actions';
 import { ResetCategories } from '../store/categories.actions';
+import { ResetCouple, SetCouple } from '../store/couple.actions';
+import { AppState } from '../store/index';
 import { ResetTransactions } from '../store/transactions.actions';
+import { ResetUser, SetCurrentUser } from '../store/user.actions';
 import { CategoriesService } from './categories.service';
 
 @Injectable()
@@ -31,7 +27,7 @@ export class AuthService {
     protected router: Router,
     protected store: Store<AppState>,
   ) {
-    this.userAuthenticated$.filter(isAuthenticated => (isAuthenticated === false)).subscribe(this.onUserDeauthenticated);
+    this.userAuthenticated$.pipe(filter(isAuthenticated => (isAuthenticated === false))).subscribe(this.onUserDeauthenticated);
   }
 
   initUser(): Observable<boolean> {
@@ -39,19 +35,19 @@ export class AuthService {
     if (accessToken) {
       this.token = accessToken;
       this.userAuthenticated$.next(true);
-      return Observable.of(true);
+      return of(true);
     }
 
-    return Observable.of(false);
+    return of(false);
   }
 
   authenticateUser(): Observable<any> {
-    return Observable.throw('Error: not implemented');
+    return observableThrowError('Error: not implemented');
   }
 
-  logoutUser(): Observable<any>  {
+  logoutUser(): Observable<any> {
     this.token = null;
-    return Observable.of(this.clearLocalUser());
+    return of(this.clearLocalUser());
   }
 
   // DOES NOT WORK
@@ -82,21 +78,21 @@ export class AuthService {
   }
 
   fetchUser(): Observable<User> {
-    return this.http.get<User>(API_ENDPOINT + '/users/profile').map((user: User): User => {
+    return this.http.get<User>(API_ENDPOINT + '/users/profile').pipe(map((user: User): User => {
       this.store.dispatch(new SetCurrentUser(user));
       return user;
-    });
+    }));
   }
 
   getCoupleMembers(): Observable<User[]> {
-    return this.http.get<User[]>(API_ENDPOINT + '/couples/members').map((coupleMembers: User[]): User[] => {
+    return this.http.get<User[]>(API_ENDPOINT + '/couples/members').pipe(map((coupleMembers: User[]): User[] => {
       coupleMembers[0].color = '#7761a7';
       coupleMembers[1].color = '#3d566d';
 
       this.store.dispatch(new SetCouple({ users: coupleMembers }));
 
       return coupleMembers;
-    });
+    }));
   }
 
   get isAuthenticated(): boolean {
@@ -129,5 +125,5 @@ export class AuthService {
     if (this.router.url !== '/login') {
       this.router.navigate(['/login']);
     }
-  }
+  };
 }

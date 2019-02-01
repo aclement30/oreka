@@ -1,16 +1,7 @@
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor, HttpErrorResponse
-} from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/observable/empty';
-
+import { EMPTY, Observable, throwError as observableThrowError } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 
 @Injectable()
@@ -25,11 +16,11 @@ export class TokenInterceptor implements HttpInterceptor {
 
     request = request.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${ token }`,
+      },
     });
 
-    return next.handle(request).do((event: HttpEvent<any>) => {}, (error: any) => {
+    return next.handle(request).pipe(tap((event: HttpEvent<any>) => {}, (error: any) => {
       if (error instanceof HttpErrorResponse && error.status === 401) {
         const authService = this.injector.get(AuthService);
         authService.logoutUser().subscribe();
@@ -44,10 +35,10 @@ export class TokenInterceptor implements HttpInterceptor {
         //     return Observable.empty();
         //   });
 
-        return Observable.empty();
+        return EMPTY;
       }
 
-      return Observable.throw(error);
-    });
+      return observableThrowError(error);
+    }));
   }
 }

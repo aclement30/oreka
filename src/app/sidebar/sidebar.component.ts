@@ -1,15 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/observable/never';
-
-import { AuthService } from '../services/auth.service';
-import { AppState } from '../store/index';
-import { getCurrentUser } from '../store/user.reducer';
-import { getPartner } from '../store/couple.reducer';
+import { AppState } from 'app/store';
+import { NEVER, Observable, Subscription } from 'rxjs';
 import { User } from '../models/user.model';
+import { AuthService } from '../services/auth.service';
+import { getPartner } from '../store/couple.reducer';
+import { getCurrentUser } from '../store/user.reducer';
 
 @Component({
   selector: 'sidebar',
@@ -21,7 +18,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   partner$: Observable<User>;
   user$: Observable<User>;
 
-  private subscriptions: Subscription = Observable.never().subscribe();
+  private subscriptions: Subscription = NEVER.subscribe();
 
   constructor(
     private authService: AuthService,

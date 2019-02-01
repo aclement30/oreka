@@ -1,17 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { AsyncSubject } from 'rxjs/AsyncSubject';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/mergeMap';
-
-import { GOOGLE_CLIENT_ID, API_ENDPOINT } from '../config';
+import { AppState } from 'app/store';
+import { AsyncSubject, BehaviorSubject, from, Observable, throwError as observableThrowError } from 'rxjs';
+import { catchError, filter, flatMap, map, take, tap } from 'rxjs/operators';
+import { API_ENDPOINT, GOOGLE_CLIENT_ID } from '../config';
 import { AuthService } from './auth.service';
 import { CategoriesService } from './categories.service';
-import { AppState } from '../store/index';
 
 declare const gapi: any;
 
@@ -40,45 +36,50 @@ export class GoogleAuthService extends AuthService {
   }
 
   authenticateUser(): Observable<any> {
-    return this.googleIdToken$.filter(Boolean)
-      .flatMap((idToken: string) => {
+    return this.googleIdToken$.pipe(
+      filter(Boolean),
+      flatMap((idToken: string) => {
         return this.requestAccessToken(idToken);
-      });
+      }),
+    );
   }
 
   requestAccessToken(googleToken: string): Observable<string> {
-    return this.http.post<any>(API_ENDPOINT + '/access_token', { googleToken })
-      .map((data: { token: string }) => {
+    return this.http.post<any>(API_ENDPOINT + '/access_token', { googleToken }).pipe(
+      map((data: { token: string }) => {
         localStorage.setItem('oreka-token', data.token);
         this.token = data.token;
         this.userAuthenticated$.next(true);
         return data.token;
-      })
-      .catch(() => {
+      }),
+      catchError(() => {
         this.clearLocalUser();
-        return Observable.throw('Error while authenticating with backend server');
-      });
+        return observableThrowError('Error while authenticating with backend server');
+      }),
+    );
   }
 
   /**
    * Logout user from Google
    */
   logoutUser(): Observable<any> {
-    return this.apiLoaded$.take(1)
-      .flatMap(() => {
-        return Observable.fromPromise(gapi.auth2.getAuthInstance().signOut());
-      })
-      .flatMap(() => {
+    return this.apiLoaded$.pipe(
+      take(1),
+      flatMap(() => {
+        return from(gapi.auth2.getAuthInstance().signOut());
+      }),
+      flatMap(() => {
         return super.logoutUser();
-      })
-      .do(() => {
+      }),
+      tap(() => {
         this.googleIdToken$.next(null);
         this.userAuthenticated$.next(false);
-      });
+      }),
+    );
   }
 
   bindSignInButton(button: Element): void {
-    this.apiLoaded$.take(1).subscribe(() => {
+    this.apiLoaded$.pipe(take(1)).subscribe(() => {
       gapi.auth2.getAuthInstance().attachClickHandler(button);
     });
   }

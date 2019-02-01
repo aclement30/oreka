@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AppState } from '../store/index';

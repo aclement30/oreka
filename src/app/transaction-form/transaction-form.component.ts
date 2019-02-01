@@ -1,7 +1,7 @@
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 

@@ -5,8 +5,8 @@ import {
   HttpEvent,
   HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
+import { Observable } from 'rxjs';
+
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
