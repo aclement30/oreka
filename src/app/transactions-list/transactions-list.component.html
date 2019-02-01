@@ -8,7 +8,7 @@
 </header>
 
 <div class="row" *ngFor="let transaction of transactions">
-  <div class="cell payer"><avatar [user]="transaction.payer"></avatar></div>
+  <div class="cell payer"><app-avatar [user]="transaction.payer"></app-avatar></div>
   <div class="cell description" *ngIf="type === 'expenses'">{{ transaction.description }}<br><span class="category" *ngIf="transaction.category">{{ transaction.category.name }}</span></div>
   <div class="cell date">{{ transaction.date }}</div>
   <div class="cell notes">{{ transaction.notes }}</div>

@@ -1,21 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-
-import { AppState } from '../store/index';
+import { Observable } from 'rxjs';
 import { Category } from '../models/category.model';
-import { getCategories } from '../store/categories.reducer';
-import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 import { Expense } from '../models/expense.model';
 import { ExpensesService } from '../services/expenses.service';
+import { getCategories } from '../store/categories.reducer';
+import { AppState } from '../store/index';
 import { UpdateExpense } from '../store/transactions.actions';
+import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 
 @Component({
-  selector: 'expense-form',
+  selector: 'app-expense-form',
   templateUrl: './expense-form.component.html',
   styleUrls: ['./expense-form.component.scss'],
 })

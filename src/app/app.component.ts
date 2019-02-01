@@ -1,16 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-
 import { AuthService } from './services/auth.service';
 import { GoogleAuthService } from './services/google-auth.service';
 
-declare const oreka: any;
-
 @Component({
-  selector: 'body',
+  selector: 'app-oreka',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 
 export class AppComponent implements OnInit {

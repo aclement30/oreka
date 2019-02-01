@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { User } from '../models/user.model';
 
 @Component({
-  selector: 'avatar',
+  selector: 'app-avatar',
   template: `<div [style.background-color]="user.color"><span>{{ user.initials }}</span></div>`,
   styleUrls: ['./avatar.component.scss']
 })

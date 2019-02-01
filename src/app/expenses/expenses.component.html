@@ -11,7 +11,7 @@
      [fromRoot]="true"
      [infiniteScrollDisabled]="lastPageReached"
      (scrolled)="onScroll()">
-  <transactions-list [transactions]="expenses$ | async" (onRemove)="removeExpense($event)"></transactions-list>
+  <app-transactions-list [transactions]="expenses$ | async" (onRemove)="removeExpense($event)"></app-transactions-list>
 </div>
 
 <div class="infinite-scroll-loading" *ngIf="loading">

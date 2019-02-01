@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-
+import { AppState } from 'app/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ExpenseFormComponent } from '../expense-form/expense-form.component';
-import { ExpensesService } from '../services/expenses.service';
 import { Expense } from '../models/expense.model';
+import { ExpensesService } from '../services/expenses.service';
 import { AddExpenses, RemoveTransaction } from '../store/transactions.actions';
-import { AppState } from '../store/index';
 import { getExpenses } from '../store/transactions.reducer';
 import { sortByDateDesc } from '../utils';
 
 @Component({
-  selector: 'expenses',
+  selector: 'app-expenses',
   templateUrl: './expenses.component.html',
 })
 
@@ -34,9 +34,9 @@ export class ExpensesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.expenses$ = this.store.select(getExpenses).map((expenses: Expense[]) => {
+    this.expenses$ = this.store.select(getExpenses).pipe(map((expenses: Expense[]) => {
       return expenses.sort(sortByDateDesc);
-    });
+    }));
 
     this.fetchTransactions();
   }

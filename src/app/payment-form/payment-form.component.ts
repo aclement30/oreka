@@ -1,18 +1,17 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-
-import { AppState } from '../store/index';
-import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
-import { PaymentsService } from '../services/payments.service';
 import { Payment } from '../models/payment.model';
+import { PaymentsService } from '../services/payments.service';
+import { AppState } from 'app/store';
 import { UpdatePayment } from '../store/transactions.actions';
+import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 
 @Component({
-  selector: 'payment-form',
+  selector: 'app-payment-form',
   templateUrl: './payment-form.component.html',
 })
 

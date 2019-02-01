@@ -17,7 +17,7 @@ import { getExpenses, getPayments } from '../store/transactions.reducer';
 import { sortByDateDesc } from '../utils';
 
 @Component({
-  selector: 'dashboard',
+  selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })

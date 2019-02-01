@@ -7,7 +7,7 @@ import { ExpenseFormComponent } from '../expense-form/expense-form.component';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 
 @Component({
-  selector: 'transactions-list',
+  selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
   styleUrls: ['./transactions-list.component.scss'],
 })

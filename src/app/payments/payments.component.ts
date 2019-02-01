@@ -13,7 +13,7 @@ import { getPayments } from '../store/transactions.reducer';
 import { sortByDateDesc } from '../utils';
 
 @Component({
-  selector: 'payments',
+  selector: 'app-payments',
   templateUrl: './payments.component.html',
 })
 

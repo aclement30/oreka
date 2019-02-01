@@ -9,7 +9,7 @@ import { getPartner } from '../store/couple.reducer';
 import { getCurrentUser } from '../store/user.reducer';
 
 @Component({
-  selector: 'sidebar',
+  selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })

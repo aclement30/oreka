@@ -125,5 +125,5 @@ export class AuthService {
     if (this.router.url !== '/login') {
       this.router.navigate(['/login']);
     }
-  };
+  }
 }
