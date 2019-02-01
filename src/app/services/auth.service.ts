@@ -2,21 +2,20 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { User } from 'app/models/user.model';
+import { CategoriesService } from 'app/services/categories.service';
+import { AppState } from 'app/store';
+import { ResetCategories } from 'app/store/categories.actions';
+import { ResetCouple, SetCouple } from 'app/store/couple.actions';
+import { ResetTransactions } from 'app/store/transactions.actions';
+import { ResetUser, SetCurrentUser } from 'app/store/user.actions';
+import { environment } from 'environments/environment';
 import { BehaviorSubject, forkJoin, Observable, of, throwError as observableThrowError } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { API_ENDPOINT } from '../config';
-import { User } from '../models/user.model';
-import { ResetCategories } from '../store/categories.actions';
-import { ResetCouple, SetCouple } from '../store/couple.actions';
-import { AppState } from '../store/index';
-import { ResetTransactions } from '../store/transactions.actions';
-import { ResetUser, SetCurrentUser } from '../store/user.actions';
-import { CategoriesService } from './categories.service';
 
 @Injectable()
 export class AuthService {
   redirectUrl: string;
-
   userAuthenticated$ = new BehaviorSubject<boolean>(null);
   protected tokenRefreshRequest$: Observable<string>;
   protected token: string;
@@ -78,14 +77,14 @@ export class AuthService {
   }
 
   fetchUser(): Observable<User> {
-    return this.http.get<User>(API_ENDPOINT + '/users/profile').pipe(map((user: User): User => {
+    return this.http.get<User>(environment.apiEndpoint + '/users/profile').pipe(map((user: User): User => {
       this.store.dispatch(new SetCurrentUser(user));
       return user;
     }));
   }
 
   getCoupleMembers(): Observable<User[]> {
-    return this.http.get<User[]>(API_ENDPOINT + '/couples/members').pipe(map((coupleMembers: User[]): User[] => {
+    return this.http.get<User[]>(environment.apiEndpoint + '/couples/members').pipe(map((coupleMembers: User[]): User[] => {
       coupleMembers[0].color = '#7761a7';
       coupleMembers[1].color = '#3d566d';
 

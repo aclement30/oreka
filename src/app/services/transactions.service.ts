@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { API_ENDPOINT } from 'app/config';
 import { BaseTransaction } from 'app/models/transaction.model';
 import { User } from 'app/models/user.model';
 import { AppState } from 'app/store';
 import { getCoupleMembers } from 'app/store/couple.reducer';
+import { environment } from 'environments/environment';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
@@ -28,24 +28,24 @@ export abstract class TransactionsService<T extends BaseTransaction> {
   }
 
   query(params?: QueryParams): Observable<T[]> {
-    return this.http.get<T[]>(API_ENDPOINT + this.path, { params: params as { [param: string]: string } })
+    return this.http.get<T[]>(environment.apiEndpoint + this.path, { params: params as { [param: string]: string } })
       .pipe(map(this._mapTransactions));
   }
 
   save(transaction: T): Observable<T> {
     if (transaction.id) {
-      return this.http.put<T>(API_ENDPOINT + this.path + '/' + transaction.id, transaction).pipe(map(this._mapTransaction));
+      return this.http.put<T>(environment.apiEndpoint + this.path + '/' + transaction.id, transaction).pipe(map(this._mapTransaction));
     }
 
-    return this.http.post<T>(API_ENDPOINT + this.path, transaction).pipe(map(this._mapTransaction));
+    return this.http.post<T>(environment.apiEndpoint + this.path, transaction).pipe(map(this._mapTransaction));
   }
 
   remove(transaction: T): Observable<any> {
-    return this.http.delete(API_ENDPOINT + this.path + '/' + transaction.id);
+    return this.http.delete(environment.apiEndpoint + this.path + '/' + transaction.id);
   }
 
   restore(transaction: T): Observable<T> {
-    return this.http.patch<T>(API_ENDPOINT + this.path + '/' + transaction.id + '/restore', null).pipe(map(this._mapTransaction));
+    return this.http.patch<T>(environment.apiEndpoint + this.path + '/' + transaction.id + '/restore', null).pipe(map(this._mapTransaction));
   }
 
   protected _mapTransactions(transactions: T[]): T[] {

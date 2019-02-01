@@ -3,9 +3,9 @@ import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'app/store';
+import { environment } from 'environments/environment';
 import { AsyncSubject, BehaviorSubject, from, Observable, throwError as observableThrowError } from 'rxjs';
 import { catchError, filter, flatMap, map, take, tap } from 'rxjs/operators';
-import { API_ENDPOINT, GOOGLE_CLIENT_ID } from '../config';
 import { AuthService } from './auth.service';
 import { CategoriesService } from './categories.service';
 
@@ -45,7 +45,7 @@ export class GoogleAuthService extends AuthService {
   }
 
   requestAccessToken(googleToken: string): Observable<string> {
-    return this.http.post<any>(API_ENDPOINT + '/access_token', { googleToken }).pipe(
+    return this.http.post<any>(environment.apiEndpoint + '/access_token', { googleToken }).pipe(
       map((data: { token: string }) => {
         localStorage.setItem('oreka-token', data.token);
         this.token = data.token;
@@ -86,7 +86,7 @@ export class GoogleAuthService extends AuthService {
 
   private onApiLoad = () => {
     const auth2 = gapi.auth2.init({
-      client_id: GOOGLE_CLIENT_ID,
+      client_id: environment.googleClientId,
       scope: 'profile email',
       cookiepolicy: 'single_host_origin',
     });
