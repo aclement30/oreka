@@ -17,7 +17,7 @@ export class TransactionsListComponent {
   @Input() editable = true;
   @Input() transactions: BaseTransaction[];
 
-  @Output() onRemove = new EventEmitter<BaseTransaction>();
+  @Output() remove = new EventEmitter<BaseTransaction>();
 
   constructor(
     private dialog: MatDialog,
@@ -32,9 +32,9 @@ export class TransactionsListComponent {
     }
   }
 
-  remove(transaction: BaseTransaction) {
+  doRemove(transaction: BaseTransaction) {
     if (confirm(this.translate.instant('common.askRemoveTransaction'))) {
-      this.onRemove.emit(transaction);
+      this.remove.emit(transaction);
     }
   }
 }

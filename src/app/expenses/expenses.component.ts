@@ -22,8 +22,8 @@ export class ExpensesComponent implements OnInit {
   lastPageReached = false;
   loading = false;
 
-  private _page = 1;
-  private _pageLimit = 50;
+  private page = 1;
+  private pageLimit = 50;
 
   constructor(
     public dialog: MatDialog,
@@ -46,7 +46,7 @@ export class ExpensesComponent implements OnInit {
       return;
     }
 
-    this._page++;
+    this.page++;
     this.fetchTransactions();
   }
 
@@ -75,9 +75,9 @@ export class ExpensesComponent implements OnInit {
     this.loading = true;
 
     this.expensesService
-      .query({ page: this._page, limit: this._pageLimit })
+      .query({ page: this.page, limit: this.pageLimit })
       .subscribe((expenses: Expense[]) => {
-        if (!expenses.length || expenses.length < this._pageLimit) {
+        if (!expenses.length || expenses.length < this.pageLimit) {
           this.lastPageReached = true;
         }
 

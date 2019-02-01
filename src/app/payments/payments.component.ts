@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Payment } from '../models/payment.model';
 import { PaymentFormComponent } from '../payment-form/payment-form.component';
 import { PaymentsService } from '../services/payments.service';
-import { Payment } from '../models/payment.model';
+import { AppState } from 'app/store';
 import { AddPayments, RemoveTransaction } from '../store/transactions.actions';
-import { AppState } from '../store/index';
 import { getPayments } from '../store/transactions.reducer';
 import { sortByDateDesc } from '../utils';
 
@@ -22,8 +22,8 @@ export class PaymentsComponent implements OnInit {
   lastPageReached = false;
   loading = false;
 
-  private _page = 1;
-  private _pageLimit = 50;
+  private page = 1;
+  private pageLimit = 50;
 
   constructor(
     public dialog: MatDialog,
@@ -34,9 +34,9 @@ export class PaymentsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.payments$ = this.store.select(getPayments).map((payments: Payment[]) => {
+    this.payments$ = this.store.select(getPayments).pipe(map((payments: Payment[]) => {
       return payments.sort(sortByDateDesc);
-    });
+    }));
 
     this._fetchTransactions();
   }
@@ -46,7 +46,7 @@ export class PaymentsComponent implements OnInit {
       return;
     }
 
-    this._page++;
+    this.page++;
     this._fetchTransactions();
   }
 
@@ -75,9 +75,9 @@ export class PaymentsComponent implements OnInit {
     this.loading = true;
 
     this.paymentsService
-      .query({ page: this._page, limit: this._pageLimit })
+      .query({ page: this.page, limit: this.pageLimit })
       .subscribe((payments: Payment[]) => {
-        if (!payments.length || payments.length < this._pageLimit) {
+        if (!payments.length || payments.length < this.pageLimit) {
           this.lastPageReached = true;
         }
 

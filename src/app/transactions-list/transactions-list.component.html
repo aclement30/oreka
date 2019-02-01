@@ -15,6 +15,6 @@
   <div class="cell amount">{{ transaction.amount | number: '1.2' }}</div>
   <div class="cell actions" *ngIf="editable">
     <button mat-icon-button class="edit" (click)="edit(transaction)"><mat-icon>edit</mat-icon></button>
-    <button mat-icon-button class="remove" (click)="remove(transaction)"><mat-icon>clear</mat-icon></button>
+    <button mat-icon-button class="remove" (click)="doRemove(transaction)"><mat-icon>clear</mat-icon></button>
   </div>
 </div>

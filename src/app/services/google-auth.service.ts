@@ -29,7 +29,7 @@ export class GoogleAuthService extends AuthService {
 
   waitForGoogleApi = () => {
     if (typeof gapi !== 'undefined') {
-      gapi.load('auth2', this._onApiLoad);
+      gapi.load('auth2', this.onApiLoad);
     } else {
       setTimeout(this.waitForGoogleApi, 50);
     }
@@ -84,7 +84,7 @@ export class GoogleAuthService extends AuthService {
     });
   }
 
-  private _onApiLoad = () => {
+  private onApiLoad = () => {
     const auth2 = gapi.auth2.init({
       client_id: GOOGLE_CLIENT_ID,
       scope: 'profile email',
@@ -92,10 +92,10 @@ export class GoogleAuthService extends AuthService {
     });
 
     // Listen for changes to current user
-    auth2.currentUser.listen(this._onUserChanged);
+    auth2.currentUser.listen(this.onUserChanged);
   }
 
-  private _onUserChanged = (googleUser) => {
+  private onUserChanged = (googleUser) => {
     this.apiLoaded$.next(true);
     this.apiLoaded$.complete();
 
