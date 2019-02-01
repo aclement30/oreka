@@ -1,17 +1,16 @@
 import { Inject, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-
-import { AppState } from '../store/index';
-import { User } from '../models/user.model';
-
-import { getCurrentUser } from '../store/user.reducer';
-import { getCoupleMembers, getPartner } from '../store/couple.reducer';
-import { TransactionsService } from '../services/transactions.service';
-import { BaseTransaction } from '../models/transaction.model';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Store } from '@ngrx/store';
+import { BaseTransaction } from 'app/models/transaction.model';
+import { User } from 'app/models/user.model';
+import { TransactionsService } from 'app/services/transactions.service';
+import { AppState } from 'app/store';
+import { getCoupleMembers, getPartner } from 'app/store/couple.reducer';
+import { getCurrentUser } from 'app/store/user.reducer';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable()
 export abstract class TransactionFormComponent implements OnInit {
@@ -36,7 +35,7 @@ export abstract class TransactionFormComponent implements OnInit {
     this.partner$ = this.store.select(getPartner);
     this.coupleMembers$ = this.store.select(getCoupleMembers);
 
-    this.user$.take(1).subscribe((user: User) => { this.userId = user.id; });
+    this.user$.pipe(take(1)).subscribe((user: User) => { this.userId = user.id; });
 
     this.form = this.buildForm(this.data && this.data.transaction);
   }

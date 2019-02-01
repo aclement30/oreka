@@ -1,14 +1,9 @@
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor, HttpErrorResponse
-} from '@angular/common/http';
-import { Observable } from 'rxjs';
-
 import { MatSnackBar } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -19,7 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).catch((response: any) => {
+    return next.handle(request).pipe(catchError((response: any) => {
       const ignoredStatusCodes: number[] = [400, 401, 402, 403];
 
       if (response instanceof HttpErrorResponse && !ignoredStatusCodes.includes(response.status)) {
@@ -29,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         });
       }
 
-      return Observable.of(response.error);
-    });
+      return of(response.error);
+    }));
   }
 }

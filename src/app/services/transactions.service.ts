@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { API_ENDPOINT } from 'app/config';
+import { BaseTransaction } from 'app/models/transaction.model';
+import { User } from 'app/models/user.model';
+import { AppState } from 'app/store';
+import { getCoupleMembers } from 'app/store/couple.reducer';
 import { Observable } from 'rxjs';
-
-
-
-
-import { API_ENDPOINT } from '../config';
-import { AppState } from '../store/index';
-import { BaseTransaction } from '../models/transaction.model';
-import { User } from '../models/user.model';
-import { getCoupleMembers } from '../store/couple.reducer';
+import { map, take } from 'rxjs/operators';
 
 interface QueryParams {
   readonly limit?: number | string;
@@ -32,15 +29,15 @@ export abstract class TransactionsService<T extends BaseTransaction> {
 
   query(params?: QueryParams): Observable<T[]> {
     return this.http.get<T[]>(API_ENDPOINT + this.path, { params: params as { [param: string]: string } })
-      .map(this._mapTransactions);
+      .pipe(map(this._mapTransactions));
   }
 
   save(transaction: T): Observable<T> {
     if (transaction.id) {
-      return this.http.put<T>(API_ENDPOINT + this.path + '/' + transaction.id, transaction).map(this._mapTransaction);
+      return this.http.put<T>(API_ENDPOINT + this.path + '/' + transaction.id, transaction).pipe(map(this._mapTransaction));
     }
 
-    return this.http.post<T>(API_ENDPOINT + this.path, transaction).map(this._mapTransaction);
+    return this.http.post<T>(API_ENDPOINT + this.path, transaction).pipe(map(this._mapTransaction));
   }
 
   remove(transaction: T): Observable<any> {
@@ -48,16 +45,16 @@ export abstract class TransactionsService<T extends BaseTransaction> {
   }
 
   restore(transaction: T): Observable<T> {
-    return this.http.patch<T>(API_ENDPOINT + this.path + '/' + transaction.id + '/restore', null).map(this._mapTransaction);
+    return this.http.patch<T>(API_ENDPOINT + this.path + '/' + transaction.id + '/restore', null).pipe(map(this._mapTransaction));
   }
 
   protected _mapTransactions(transactions: T[]): T[] {
-   return transactions.map(this._mapTransaction);
+    return transactions.map(this._mapTransaction);
   }
 
   protected _mapTransaction(transaction: T): T {
     let users: User[];
-    this.store.select(getCoupleMembers).take(1).subscribe((stateUsers: User[]) =>  { users = stateUsers; });
+    this.store.select(getCoupleMembers).pipe(take(1)).subscribe((stateUsers: User[]) => { users = stateUsers; });
 
     transaction.payer = users.find((user: User) => (user.id === transaction.payerId));
 

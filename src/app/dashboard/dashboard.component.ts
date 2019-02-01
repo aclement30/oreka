@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-
-import { AppState } from '../store/index';
-import { ExpenseFormComponent } from '../expense-form/expense-form.component';
-import { ExpensesService } from '../services/expenses.service';
-import { Expense } from '../models/expense.model';
-import { User } from '../models/user.model';
-import { getPartner } from '../store/couple.reducer';
-import { getCurrentUser } from '../store/user.reducer';
-import { Payment } from '../models/payment.model';
-import { PaymentsService } from '../services/payments.service';
-import { AddExpenses, AddPayments } from '../store/transactions.actions';
-import { getExpenses, getPayments } from '../store/transactions.reducer';
-import { sortByDateDesc } from '../utils';
+import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
+import { Expense } from 'app/models/expense.model';
+import { Payment } from 'app/models/payment.model';
+import { User } from 'app/models/user.model';
+import { ExpensesService } from 'app/services/expenses.service';
+import { PaymentsService } from 'app/services/payments.service';
+import { AppState } from 'app/store';
+import { getPartner } from 'app/store/couple.reducer';
+import { AddExpenses, AddPayments } from 'app/store/transactions.actions';
+import { getExpenses, getPayments } from 'app/store/transactions.reducer';
+import { getCurrentUser } from 'app/store/user.reducer';
+import { sortByDateDesc } from 'app/utils';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 
 export class DashboardComponent implements OnInit {
@@ -39,13 +39,13 @@ export class DashboardComponent implements OnInit {
     this.partner$ = this.store.select(getPartner);
     this.user$ = this.store.select(getCurrentUser);
 
-    this.expenses$ = this.store.select(getExpenses).map((expenses: Expense[]) => {
+    this.expenses$ = this.store.select(getExpenses).pipe(map((expenses: Expense[]) => {
       return expenses.sort(sortByDateDesc).slice(0, 6);
-    });
+    }));
 
-    this.payments$ = this.store.select(getPayments).map((payments: Payment[]) => {
+    this.payments$ = this.store.select(getPayments).pipe(map((payments: Payment[]) => {
       return payments.sort(sortByDateDesc).slice(0, 3);
-    });
+    }));
 
     this.expensesService
       .query({ limit: 6 })

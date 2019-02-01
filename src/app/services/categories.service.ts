@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-
-import { API_ENDPOINT } from '../config';
-import { Category } from '../models/category.model';
-import { SetCategories } from '../store/categories.actions';
-import { AppState } from '../store/index';
+import { API_ENDPOINT } from 'app/config';
+import { Category } from 'app/models/category.model';
+import { AppState } from 'app/store';
+import { SetCategories } from 'app/store/categories.actions';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class CategoriesService {
@@ -19,9 +19,9 @@ export class CategoriesService {
   ) {}
 
   query(): Observable<Category[]> {
-    return this.http.get<Category[]>(API_ENDPOINT + this.path).map((categories: Category[]) => {
+    return this.http.get<Category[]>(API_ENDPOINT + this.path).pipe(map((categories: Category[]) => {
       this.store.dispatch(new SetCategories(categories));
       return categories;
-    });
+    }));
   }
 }
