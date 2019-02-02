@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
+import { ImportComponent } from 'app/import/import.component';
 import { Expense } from 'app/models/expense.model';
 import { Payment } from 'app/models/payment.model';
 import { User } from 'app/models/user.model';
@@ -62,5 +63,9 @@ export class DashboardComponent implements OnInit {
 
   addExpense() {
     this.dialog.open(ExpenseFormComponent, { width: '500px', height: '500px' });
+  }
+
+  importFromFile() {
+    this.dialog.open(ImportComponent, { hasBackdrop: true, disableClose: true, width: '95%', height: '95%' });
   }
 }

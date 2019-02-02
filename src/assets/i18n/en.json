@@ -34,6 +34,7 @@
   "expenses": {
     "title": "Expenses",
     "addExpense": "Add expense",
+    "import": "Import from file",
     "expenseDeleted": "The expense has been deleted"
   },
   "login": {
@@ -56,5 +57,20 @@
     "title": "Payments",
     "addPayment": "Add payment",
     "paymentDeleted": "The payment has been deleted"
+  },
+  "import": {
+    "selectFile": "Select file",
+    "reset": "Select another file",
+    "fileFormat": "File format",
+    "details": "Details",
+    "description": "Description",
+    "note": "Note",
+    "noOp": "No operations found in this file",
+    "success": "Selected expenses have been saved",
+    "formats": {
+      "RBC": "RBC Royal Banq",
+      "TNG": "Tangerine",
+      "DSJ": "Desjardins"
+    }
   }
 }

@@ -40,6 +40,10 @@ export abstract class TransactionsService<T extends BaseTransaction> {
     return this.http.post<T>(environment.apiEndpoint + this.path, transaction).pipe(map(this._mapTransaction));
   }
 
+  import(transactions: T[]): Observable<T[]> {
+    return this.http.post<T[]>(environment.apiEndpoint + '/v1' + this.path + '/import', { operations: transactions }).pipe(map(this._mapTransactions));
+  }
+
   remove(transaction: T): Observable<any> {
     return this.http.delete(environment.apiEndpoint + this.path + '/' + transaction.id);
   }

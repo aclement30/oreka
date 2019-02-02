@@ -34,6 +34,7 @@
   "expenses": {
     "title": "Dépenses",
     "addExpense": "Ajouter une dépense",
+    "import": "Importer depuis un fichier",
     "expenseDeleted": "La dépense a été supprimée"
   },
   "login": {
@@ -56,5 +57,20 @@
     "title": "Paiements",
     "addPayment": "Ajouter un paiement",
     "paymentDeleted": "Le paiement a été supprimé"
+  },
+  "import": {
+    "selectFile": "Choisir le fichier",
+    "reset": "Choisir un autre fichier",
+    "fileFormat": "Format de fichier",
+    "details": "Détails",
+    "description": "Description",
+    "note": "Note",
+    "noOp": "Aucune opération trouvée dans ce fichier",
+    "success": "Les dépenses ont été importées",
+    "formats": {
+      "RBC": "RBC Banque Royale",
+      "TNG": "Tangerine",
+      "DSJ": "Desjardins"
+    }
   }
 }

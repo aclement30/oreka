@@ -2,15 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
+import { ImportComponent } from 'app/import/import.component';
+import { Expense } from 'app/models/expense.model';
+import { ExpensesService } from 'app/services/expenses.service';
 import { AppState } from 'app/store';
+import { AddExpenses, RemoveTransaction } from 'app/store/transactions.actions';
+import { getExpenses } from 'app/store/transactions.reducer';
+import { sortByDateDesc } from 'app/utils';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ExpenseFormComponent } from '../expense-form/expense-form.component';
-import { Expense } from '../models/expense.model';
-import { ExpensesService } from '../services/expenses.service';
-import { AddExpenses, RemoveTransaction } from '../store/transactions.actions';
-import { getExpenses } from '../store/transactions.reducer';
-import { sortByDateDesc } from '../utils';
 
 @Component({
   selector: 'app-expenses',
@@ -54,6 +55,10 @@ export class ExpensesComponent implements OnInit {
     this.dialog.open(ExpenseFormComponent, { width: '500px', height: '500px' });
   }
 
+  importFromFile() {
+    this.dialog.open(ImportComponent, { hasBackdrop: true, disableClose: true, width: '95%', height: '95%' });
+  }
+
   removeExpense(expense: Expense): void {
     this.expensesService.remove(expense).subscribe(() => {
       this.store.dispatch(new RemoveTransaction(expense));
@@ -82,7 +87,6 @@ export class ExpensesComponent implements OnInit {
         }
 
         this.loading = false;
-
         this.store.dispatch(new AddExpenses(expenses));
       });
   }

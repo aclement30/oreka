@@ -1,7 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DATE_LOCALE, MatNativeDateModule, MatSnackBarModule } from '@angular/material';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DATE_LOCALE, MatCheckboxModule, MatFormFieldModule, MatInputModule, MatNativeDateModule, MatProgressSpinnerModule, MatSelectModule, MatSnackBarModule, MatTableModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { AvatarComponent } from 'app/avatar/avatar.component';
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
 import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
 import { ExpensesComponent } from 'app/expenses/expenses.component';
+import { ImportComponent } from 'app/import/import.component';
 import { ErrorInterceptor } from 'app/interceptors/error.interceptor';
 import { TokenInterceptor } from 'app/interceptors/token.interceptor';
 import { LoginComponent } from 'app/login/login.component';
@@ -52,10 +53,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     PaymentsComponent,
     SidebarComponent,
     TransactionsListComponent,
+    ImportComponent,
   ],
   entryComponents: [
     ExpenseFormComponent,
     PaymentFormComponent,
+    ImportComponent,
   ],
   imports: [
     AppRouterProvider,
@@ -66,11 +69,18 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
     MatIconModule,
     MatNativeDateModule,
     MatSliderModule,
     MatSnackBarModule,
     ReactiveFormsModule,
+    FormsModule,
     StoreModule.forRoot(reducers, { initialState: appInitialState }),
     StoreDevtoolsModule.instrument({
       maxAge: 10,
