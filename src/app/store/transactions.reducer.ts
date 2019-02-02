@@ -1,10 +1,9 @@
+import { Expense } from 'app/models/expense.model';
+import { Payment } from 'app/models/payment.model';
+import { BaseTransaction } from 'app/models/transaction.model';
+import { AppState } from 'app/store/index';
+import * as transactionsActions from 'app/store/transactions.actions';
 import { createSelector } from 'reselect';
-
-import { AppState } from './index';
-import * as transactionsActions from './transactions.actions';
-import { BaseTransaction } from '../models/transaction.model';
-import { Expense } from '../models/expense.model';
-import { Payment } from '../models/payment.model';
 
 export interface TransactionsState {
   entities: BaseTransaction[];
@@ -18,7 +17,7 @@ function mergeTransactions(newTransactions: BaseTransaction[], existingTransacti
   const transactionIds = newTransactions.map((transaction: BaseTransaction) => (transaction.id));
 
   return existingTransactions
-    // Filter out existing transactions to be updated
+  // Filter out existing transactions to be updated
     .filter((transaction: BaseTransaction) => (!transactionIds.includes(transaction.id)))
     // Append updated transactions
     .concat(newTransactions);
@@ -57,7 +56,7 @@ export function transactionsReducer(state = initialState, action: transactionsAc
       return {
         ...state,
         entities: state.entities
-          // Filter out existing transaction to be removed
+        // Filter out existing transaction to be removed
           .filter((transaction: BaseTransaction) => (transaction.id !== action.payload.id)),
       };
 

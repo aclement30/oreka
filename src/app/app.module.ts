@@ -31,7 +31,7 @@ import { Gatekeeper } from 'app/services/gatekeeper';
 import { GoogleAuthService } from 'app/services/google-auth.service';
 import { PaymentsService } from 'app/services/payments.service';
 import { SidebarComponent } from 'app/sidebar/sidebar.component';
-import { reducers } from 'app/store';
+import { appInitialState, reducers } from 'app/store';
 import { TransactionsListComponent } from 'app/transactions-list/transactions-list.component';
 import 'hammerjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -71,9 +71,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatSliderModule,
     MatSnackBarModule,
     ReactiveFormsModule,
-    StoreModule.forRoot(reducers, {
-      initialState: {},
-    }),
+    StoreModule.forRoot(reducers, { initialState: appInitialState }),
     StoreDevtoolsModule.instrument({
       maxAge: 10,
     }),

@@ -1,10 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-
-import { BaseTransaction } from '../models/transaction.model';
-import { ExpenseFormComponent } from '../expense-form/expense-form.component';
-import { PaymentFormComponent } from '../payment-form/payment-form.component';
+import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
+import { BaseTransaction } from 'app/models/transaction.model';
+import { PaymentFormComponent } from 'app/payment-form/payment-form.component';
 
 @Component({
   selector: 'app-transactions-list',
