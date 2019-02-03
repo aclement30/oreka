@@ -1,0 +1,55 @@
+<h3>{{ 'expenseForm.addTitle' | translate }}</h3>
+
+<form [formGroup]="expenseForm" (ngSubmit)="submit()">
+  <div class="form-fields">
+    <div class="fields-group infos">
+      <div class="fields-row">
+        <mat-form-field>
+          <input type="text" matInput formControlName="date" [matDatepicker]="expenseDate" [placeholder]="'common.date' | translate" required>
+          <mat-datepicker-toggle matSuffix [for]="expenseDate"></mat-datepicker-toggle>
+          <mat-datepicker #expenseDate></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="number" matInput formControlName="amount" [placeholder]="'common.amount' | translate" #amountField required>
+          <span matSuffix>$</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select formControlName="categoryId" [placeholder]="'common.category' | translate" required>
+            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+              {{ cat.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="fields-row">
+        <mat-form-field>
+          <input type="text" matInput formControlName="description" [placeholder]="'common.description' | translate" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" matInput formControlName="notes" [placeholder]="'common.notes' | translate">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="fields-group shares">
+      <mat-form-field>
+        <input type="number" matInput formControlName="payerShare" [placeholder]="'expenseForm.payerShare' | translate" required>
+        <span matSuffix>$</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input type="number" matInput formControlName="partnerShare" [placeholder]="'expenseForm.partnerShare' | translate" required>
+        <span matSuffix>$</span>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button type="button" mat-button (click)="resetForm()">{{ 'common.actions.cancel' | translate }}</button>
+    <button type="submit" mat-raised-button [disabled]="!expenseForm.valid">{{ 'common.actions.save' | translate }}</button>
+  </div>
+</form>

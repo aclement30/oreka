@@ -29,6 +29,8 @@
     "editTitle": "Modifier la dépense",
     "paidBy": "Payé par",
     "share": "Partage",
+    "payerShare": "Payé par moi",
+    "partnerShare": "Payé par l'autre",
     "expenseSaved": "La dépense a été enregistrée"
   },
   "expenses": {

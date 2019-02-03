@@ -59,7 +59,7 @@
               </mat-form-field>
 
               <mat-form-field>
-                <mat-select placeholder="Categorie" [(ngModel)]="op.categoryId">
+                <mat-select [placeholder]="'common.category' | translate" [(ngModel)]="op.categoryId">
                   <mat-option *ngFor="let cat of categories" [value]="cat.id">
                     {{ cat.name }}
                   </mat-option>

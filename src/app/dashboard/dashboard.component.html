@@ -7,9 +7,15 @@
 </header>
 
 <div class="row">
-  <div class="card left">
-    <h3>{{ 'dashboard.lastExpenses' | translate }}</h3>
-    <app-transactions-list [editable]="false" [transactions]="expenses$ | async"></app-transactions-list>
+  <div class="left">
+    <div class="card">
+      <h3>{{ 'dashboard.lastExpenses' | translate }}</h3>
+      <app-transactions-list [editable]="false" [transactions]="expenses$ | async"></app-transactions-list>
+    </div>
+
+    <div class="card">
+      <app-expense-widget></app-expense-widget>
+    </div>
   </div>
 
   <div class="right">

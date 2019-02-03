@@ -4,14 +4,14 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
+import { Category } from 'app/models/category.model';
+import { Expense } from 'app/models/expense.model';
+import { ExpensesService } from 'app/services/expenses.service';
+import { AppState } from 'app/store';
+import { getCategories } from 'app/store/categories.reducer';
+import { UpdateExpense } from 'app/store/transactions.actions';
+import { TransactionFormComponent } from 'app/transaction-form/transaction-form.component';
 import { Observable } from 'rxjs';
-import { Category } from '../models/category.model';
-import { Expense } from '../models/expense.model';
-import { ExpensesService } from '../services/expenses.service';
-import { getCategories } from '../store/categories.reducer';
-import { AppState } from '../store/index';
-import { UpdateExpense } from '../store/transactions.actions';
-import { TransactionFormComponent } from '../transaction-form/transaction-form.component';
 
 @Component({
   selector: 'app-expense-form',

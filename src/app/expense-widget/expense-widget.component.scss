@@ -1,0 +1,68 @@
+@import "~styles/variables";
+
+:host {
+  display: block;
+}
+
+form {
+  width: 100%;
+  display: block;
+}
+
+.form-fields {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+
+.fields-group {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+
+  &.infos {
+    flex: 3 3 0;
+  }
+
+  &.shares {
+    flex: 1 1 0;
+  }
+
+  &:not(:last-of-type) {
+    margin-right: 1.25rem;
+  }
+}
+
+.fields-row {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  mat-form-field {
+    flex: 1 1 0;
+  }
+
+  mat-form-field:not(:last-child) {
+    margin-right: 1.25rem;
+  }
+}
+
+.buttons {
+  margin-top: 1.25rem;
+  text-align: right;
+
+  button {
+    font-weight: 200;
+    letter-spacing: 0.05em;
+    margin-left: 1.25rem;
+
+    &[type=submit]:not([disabled]) {
+      color: white;
+      background: $base-color;
+    }
+  }
+}

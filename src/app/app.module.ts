@@ -17,6 +17,7 @@ import { AppComponent } from 'app/app.component';
 import { AvatarComponent } from 'app/avatar/avatar.component';
 import { DashboardComponent } from 'app/dashboard/dashboard.component';
 import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
+import { ExpenseWidgetComponent } from 'app/expense-widget/expense-widget.component';
 import { ExpensesComponent } from 'app/expenses/expenses.component';
 import { ImportComponent } from 'app/import/import.component';
 import { ErrorInterceptor } from 'app/interceptors/error.interceptor';
@@ -54,6 +55,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SidebarComponent,
     TransactionsListComponent,
     ImportComponent,
+    ExpenseWidgetComponent,
   ],
   entryComponents: [
     ExpenseFormComponent,

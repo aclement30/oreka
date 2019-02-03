@@ -29,6 +29,8 @@
     "editTitle": "Edit expense",
     "paidBy": "Paid by",
     "share": "Share",
+    "payerShare": "Paid by me",
+    "partnerShare": "Paid by partner",
     "expenseSaved": "The expense has been saved"
   },
   "expenses": {
