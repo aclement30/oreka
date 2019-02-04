@@ -4,7 +4,7 @@ import { User } from 'app/models/user.model';
 @Component({
   selector: 'app-avatar',
   template: `
-    <div *ngIf="user" [style.background-color]="user.color"><span>{{ user.initials }}</span></div>
+    <div [style.background-color]="user.color"><span>{{ user.initials }}</span></div>
   `,
   styleUrls: ['./avatar.component.scss'],
 })

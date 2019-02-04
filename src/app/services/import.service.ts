@@ -74,7 +74,9 @@ export class ImportService {
   }
 
   parseDescription(op, mapping: FieldMapping): { bankDescription: string; description: string; helpText: string } {
-    if (/^\d{16}$/gi.test(op[mapping.accountNumber])) {
+    const creditCard: RegExp = /^\d{16}$/gi;
+
+    if (creditCard.test(op[mapping.accountNumber])) {
       return {
         bankDescription: this.handleString(op[mapping.description]),
         description: this.handleString(op[mapping.description]),

@@ -68,7 +68,7 @@
     "noOp": "No operations found in this file",
     "success": "Selected expenses have been saved",
     "formats": {
-      "RBC": "RBC Royal Banq",
+      "RBC": "RBC Royal Bank",
       "TNG": "Tangerine",
       "DSJ": "Desjardins"
     }
