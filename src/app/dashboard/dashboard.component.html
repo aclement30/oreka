@@ -29,7 +29,7 @@
 
     <div class="card">
       <h3>{{ 'dashboard.lastPayments' | translate }}</h3>
-      <app-transactions-list [editable]="false" [type]="payments" [transactions]="payments$ | async"></app-transactions-list>
+      <app-transactions-list [editable]="false" type="payments" [transactions]="payments$ | async"></app-transactions-list>
     </div>
   </div>
 </div>

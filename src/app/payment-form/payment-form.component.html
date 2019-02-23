@@ -6,7 +6,7 @@
       <div class="field" [class.-error]="form.controls.amount.touched && form.controls.amount.invalid">
         <label for="amount">{{ 'common.amount' | translate }}</label>
         <div class="input-group">
-          <input type="number" id="amount" class="form-control" formControlName="amount" (change)="onPayerShareChange()">
+          <input type="number" id="amount" class="form-control" formControlName="amount">
           <span class="suffix">$</span>
         </div>
       </div>
@@ -22,7 +22,7 @@
         <label>{{ 'paymentForm.paidBy' | translate }}</label>
         <div class="input-group">
           <ng-container *ngFor="let member of (coupleMembers$ | async)">
-            <input type="radio" id="payer-{{ member.id }}" formControlName="payerId" [value]="member.id" (change)="onPayerShareChange()"> <label for="payer-{{ member.id }}">{{ member.firstName }}</label>
+            <input type="radio" id="payer-{{ member.id }}" formControlName="payerId" [value]="member.id"> <label for="payer-{{ member.id }}">{{ member.firstName }}</label>
           </ng-container>
         </div>
       </div>
