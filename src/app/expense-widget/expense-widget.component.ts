@@ -61,7 +61,7 @@ export class ExpenseWidgetComponent implements OnInit, OnDestroy {
   }
 
   resetForm() {
-    this.expenseForm.reset({ date: new Date() });
+    this.expenseForm.reset({ date: moment(this.expenseForm.get('date').value).toDate() });
   }
 
   setShares = (amount) => {
