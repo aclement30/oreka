@@ -34,14 +34,17 @@ export abstract class TransactionsService<T extends BaseTransaction> {
 
   save(transaction: T): Observable<T> {
     if (transaction.id) {
-      return this.http.put<T>(environment.apiEndpoint + this.path + '/' + transaction.id, transaction).pipe(map(this._mapTransaction));
+      return this.http.put<T>(environment.apiEndpoint + this.path + '/' + transaction.id, transaction)
+        .pipe(map(this._mapTransaction));
     }
 
-    return this.http.post<T>(environment.apiEndpoint + this.path, transaction).pipe(map(this._mapTransaction));
+    return this.http.post<T>(environment.apiEndpoint + this.path, transaction)
+      .pipe(map(this._mapTransaction));
   }
 
   import(transactions: T[]): Observable<T[]> {
-    return this.http.post<T[]>(environment.apiEndpoint + '/v1' + this.path + '/import', { operations: transactions }).pipe(map(this._mapTransactions));
+    return this.http.post<T[]>(environment.apiEndpoint + '/v1' + this.path + '/import', { operations: transactions })
+      .pipe(map(this._mapTransactions));
   }
 
   remove(transaction: T): Observable<any> {
@@ -49,7 +52,8 @@ export abstract class TransactionsService<T extends BaseTransaction> {
   }
 
   restore(transaction: T): Observable<T> {
-    return this.http.patch<T>(environment.apiEndpoint + this.path + '/' + transaction.id + '/restore', null).pipe(map(this._mapTransaction));
+    return this.http.patch<T>(environment.apiEndpoint + this.path + '/' + transaction.id + '/restore', null)
+      .pipe(map(this._mapTransaction));
   }
 
   protected _mapTransactions(transactions: T[]): T[] {
@@ -58,7 +62,10 @@ export abstract class TransactionsService<T extends BaseTransaction> {
 
   protected _mapTransaction(transaction: T): T {
     let users: User[];
-    this.store.select(getCoupleMembers).pipe(take(1)).subscribe((stateUsers: User[]) => { users = stateUsers; });
+    this.store
+      .select(getCoupleMembers)
+      .pipe(take(1))
+      .subscribe((stateUsers: User[]) =>  { users = stateUsers; });
 
     transaction.payer = users.find((user: User) => (user.id === transaction.payerId));
 

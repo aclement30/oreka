@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.authenticateUser()
       .subscribe(() => {
         // Retrieve user base data from server
@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     (this.authService as GoogleAuthService).bindSignInButton(this.element.nativeElement.querySelector('button.google-oauth'));
   }
 
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     return this.translate.currentLang;
   }
 
-  switchLanguage(language: string) {
+  switchLanguage(language: string): void {
     this.translate.use(language);
     localStorage.setItem('oreka-language', language);
   }

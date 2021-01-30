@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppState } from 'app/store';
 import { environment } from 'environments/environment';
-import { AsyncSubject, BehaviorSubject, from, Observable, throwError as observableThrowError } from 'rxjs';
-import { catchError, filter, flatMap, map, take, tap } from 'rxjs/operators';
+import { AsyncSubject, BehaviorSubject, from, Observable, throwError } from 'rxjs';
+import { catchError, filter, mergeMap, map, take, tap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { CategoriesService } from './categories.service';
 
@@ -36,52 +36,59 @@ export class GoogleAuthService extends AuthService {
   }
 
   authenticateUser(): Observable<any> {
-    return this.googleIdToken$.pipe(
-      filter(Boolean),
-      flatMap((idToken: string) => {
-        return this.requestAccessToken(idToken);
-      }),
-    );
+    return this.googleIdToken$
+      .pipe(
+        filter(Boolean),
+        mergeMap((idToken: string) => {
+          return this.requestAccessToken(idToken);
+        }),
+      );
   }
 
   requestAccessToken(googleToken: string): Observable<string> {
-    return this.http.post<any>(environment.apiEndpoint + '/access_token', { googleToken }).pipe(
-      map((data: { token: string }) => {
-        localStorage.setItem('oreka-token', data.token);
-        this.token = data.token;
-        this.userAuthenticated$.next(true);
-        return data.token;
-      }),
-      catchError(() => {
-        this.clearLocalUser();
-        return observableThrowError('Error while authenticating with backend server');
-      }),
-    );
+    return this.http.post<any>(environment.apiEndpoint + '/access_token', { googleToken })
+      .pipe(
+        map((data: { token: string }) => {
+          localStorage.setItem('oreka-token', data.token);
+          this.token = data.token;
+          this.userAuthenticated$.next(true);
+          return data.token;
+        }),
+        catchError(() => {
+          this.clearLocalUser();
+          return throwError('Error while authenticating with backend server');
+        }),
+      );
   }
 
   /**
    * Logout user from Google
    */
   logoutUser(): Observable<any> {
-    return this.apiLoaded$.pipe(
-      take(1),
-      flatMap(() => {
-        return from(gapi.auth2.getAuthInstance().signOut());
-      }),
-      flatMap(() => {
-        return super.logoutUser();
-      }),
-      tap(() => {
-        this.googleIdToken$.next(null);
-        this.userAuthenticated$.next(false);
-      }),
-    );
+    return this.apiLoaded$
+      .pipe(
+        take(1),
+        mergeMap(() => {
+          return from(gapi.auth2.getAuthInstance().signOut());
+        }),
+        mergeMap(() => {
+          return super.logoutUser();
+        }),
+        tap(() => {
+          this.googleIdToken$.next(null);
+          this.userAuthenticated$.next(false);
+        }),
+      );
   }
 
   bindSignInButton(button: Element): void {
-    this.apiLoaded$.pipe(take(1)).subscribe(() => {
-      gapi.auth2.getAuthInstance().attachClickHandler(button);
-    });
+    this.apiLoaded$
+      .pipe(
+        take(1),
+      )
+      .subscribe(() => {
+        gapi.auth2.getAuthInstance().attachClickHandler(button);
+      });
   }
 
   private onApiLoad = () => {

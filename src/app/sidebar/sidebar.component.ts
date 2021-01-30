@@ -26,7 +26,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.partner$ = this.store.select(getPartner);
     this.user$ = this.store.select(getCurrentUser);
   }
@@ -35,7 +35,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  logout() {
+  logout(): void {
     this.authService.logoutUser().subscribe(() => {
       if (this.router.url !== '/login') {
         this.router.navigate(['/login']);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
@@ -35,14 +36,14 @@ export class ExpensesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.expenses$ = this.store.select(getExpenses).pipe(map((expenses: Expense[]) => {
-      return expenses.sort(sortByDateDesc);
-    }));
+    this.expenses$ = this.store
+      .select(getExpenses)
+      .pipe(map((expenses: Expense[]) => (expenses.sort(sortByDateDesc))));
 
     this.fetchTransactions();
   }
 
-  onScroll() {
+  onScroll(): void {
     if (this.lastPageReached) {
       return;
     }
@@ -51,11 +52,11 @@ export class ExpensesComponent implements OnInit {
     this.fetchTransactions();
   }
 
-  addExpense() {
+  addExpense(): void {
     this.dialog.open(ExpenseFormComponent, { width: '500px', height: '500px' });
   }
 
-  importFromFile() {
+  importFromFile(): void {
     this.dialog.open(ImportComponent, { hasBackdrop: true, disableClose: true, width: '95%', height: '95%' });
   }
 

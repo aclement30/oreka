@@ -13,7 +13,12 @@ export class ExpensesService extends TransactionsService<Expense> {
     const expense = super._mapTransaction(transaction) as Expense;
 
     let categories: Category[];
-    this.store.select(getCategories).pipe(take(1)).subscribe((stateCategories: Category[]) => { categories = stateCategories; });
+    this.store
+      .select(getCategories)
+      .pipe(
+        take(1),
+      )
+      .subscribe((stateCategories: Category[]) =>  { categories = stateCategories; });
 
     if (expense.categoryId) {
       expense.category = categories.find((category: Category) => (category.id === transaction.categoryId));

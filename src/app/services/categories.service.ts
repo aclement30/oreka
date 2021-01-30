@@ -19,9 +19,12 @@ export class CategoriesService {
   ) {}
 
   query(): Observable<Category[]> {
-    return this.http.get<Category[]>(environment.apiEndpoint + this.path).pipe(map((categories: Category[]) => {
-      this.store.dispatch(new SetCategories(categories));
-      return categories;
-    }));
+    return this.http.get<Category[]>(environment.apiEndpoint + this.path)
+      .pipe(
+        map((categories: Category[]) => {
+          this.store.dispatch(new SetCategories(categories));
+          return categories;
+        }),
+      );
   }
 }

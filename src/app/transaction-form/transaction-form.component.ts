@@ -1,7 +1,7 @@
-import { Inject, Injectable, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { BaseTransaction } from 'app/models/transaction.model';
 import { User } from 'app/models/user.model';
@@ -12,7 +12,10 @@ import { getCurrentUser } from 'app/store/user.reducer';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-@Injectable()
+@Component({
+  template: ''
+})
+
 export abstract class TransactionFormComponent implements OnInit {
   form: FormGroup;
   user$: Observable<User>;
@@ -30,7 +33,7 @@ export abstract class TransactionFormComponent implements OnInit {
     protected store: Store<AppState>,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user$ = this.store.select(getCurrentUser);
     this.partner$ = this.store.select(getPartner);
     this.coupleMembers$ = this.store.select(getCoupleMembers);

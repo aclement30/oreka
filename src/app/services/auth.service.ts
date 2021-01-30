@@ -10,7 +10,7 @@ import { ResetCouple, SetCouple } from 'app/store/couple.actions';
 import { ResetTransactions } from 'app/store/transactions.actions';
 import { ResetUser, SetCurrentUser } from 'app/store/user.actions';
 import { environment } from 'environments/environment';
-import { BehaviorSubject, forkJoin, Observable, of, throwError as observableThrowError } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of, throwError } from 'rxjs'
 import { filter, map } from 'rxjs/operators';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   authenticateUser(): Observable<any> {
-    return observableThrowError('Error: not implemented');
+    return throwError('Error: not implemented');
   }
 
   logoutUser(): Observable<any> {
@@ -77,21 +77,27 @@ export class AuthService {
   }
 
   fetchUser(): Observable<User> {
-    return this.http.get<User>(environment.apiEndpoint + '/users/profile').pipe(map((user: User): User => {
-      this.store.dispatch(new SetCurrentUser(user));
-      return user;
-    }));
+    return this.http.get<User>(environment.apiEndpoint + '/users/profile')
+      .pipe(
+        map((user: User): User => {
+          this.store.dispatch(new SetCurrentUser(user));
+          return user;
+        }),
+      );
   }
 
   getCoupleMembers(): Observable<User[]> {
-    return this.http.get<User[]>(environment.apiEndpoint + '/couples/members').pipe(map((coupleMembers: User[]): User[] => {
-      coupleMembers[0].color = '#7761a7';
-      coupleMembers[1].color = '#3d566d';
+    return this.http.get<User[]>(environment.apiEndpoint + '/couples/members')
+      .pipe(
+        map((coupleMembers: User[]): User[] => {
+          coupleMembers[0].color = '#7761a7';
+          coupleMembers[1].color = '#3d566d';
 
-      this.store.dispatch(new SetCouple({ users: coupleMembers }));
+          this.store.dispatch(new SetCouple({ users: coupleMembers }));
 
-      return coupleMembers;
-    }));
+          return coupleMembers;
+        }),
+      );
   }
 
   get isAuthenticated(): boolean {

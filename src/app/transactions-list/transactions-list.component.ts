@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
 import { BaseTransaction } from 'app/models/transaction.model';
 import { PaymentFormComponent } from 'app/payment-form/payment-form.component';
+import { Expense } from '../models/expense.model'
+import { Payment } from '../models/payment.model'
 
 @Component({
   selector: 'app-transactions-list',
@@ -14,7 +16,7 @@ import { PaymentFormComponent } from 'app/payment-form/payment-form.component';
 export class TransactionsListComponent {
   @Input() type: 'expenses' | 'payments' = 'expenses';
   @Input() editable = true;
-  @Input() transactions: BaseTransaction[];
+  @Input() transactions: Array<Expense | Payment>;
 
   @Output() remove = new EventEmitter<BaseTransaction>();
 
@@ -23,7 +25,7 @@ export class TransactionsListComponent {
     private translate: TranslateService,
   ) {}
 
-  edit(transaction: BaseTransaction) {
+  edit(transaction: BaseTransaction): void {
     if (this.type === 'expenses') {
       this.dialog.open(ExpenseFormComponent, { width: '500px', height: '500px', data: { transaction } });
     } else {
@@ -31,7 +33,7 @@ export class TransactionsListComponent {
     }
   }
 
-  doRemove(transaction: BaseTransaction) {
+  doRemove(transaction: BaseTransaction): void {
     if (confirm(this.translate.instant('common.askRemoveTransaction'))) {
       this.remove.emit(transaction);
     }

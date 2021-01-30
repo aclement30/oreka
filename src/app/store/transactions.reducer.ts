@@ -28,10 +28,10 @@ export function transactionsReducer(state = initialState, action: transactionsAc
     case transactionsActions.ADD_EXPENSES:
     case transactionsActions.UPDATE_EXPENSE: {
       let newTransactions = Array.isArray(action.payload) ? action.payload : [action.payload];
-      newTransactions = newTransactions.map((transaction: Expense) => {
-        transaction.type = 'Expense';
-        return transaction;
-      });
+      newTransactions = newTransactions.map((transaction: Expense) => ({
+        ...transaction,
+        type: 'Expense' as 'Expense',
+      }));
 
       return {
         ...state,
@@ -41,10 +41,10 @@ export function transactionsReducer(state = initialState, action: transactionsAc
     case transactionsActions.ADD_PAYMENTS:
     case transactionsActions.UPDATE_PAYMENT: {
       let newTransactions = Array.isArray(action.payload) ? action.payload : [action.payload];
-      newTransactions = newTransactions.map((transaction: Payment) => {
-        transaction.type = 'Payment';
-        return transaction;
-      });
+      newTransactions = newTransactions.map((transaction: Payment) => ({
+        ...transaction,
+        type: 'Payment' as 'Payment',
+      }));
 
       return {
         ...state,

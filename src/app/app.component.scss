@@ -1,4 +1,4 @@
-@import '~styles/variables';
+@import '../styles/variables';
 
 :host {
   height: 100%;
@@ -12,7 +12,7 @@
       background-color: $light-grey;
       padding: 30px;
 
-      /deep/ router-outlet + * {
+      &::ng-deep router-outlet + * {
         display: block;
         position: relative;
 

@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Category } from 'app/models/category.model';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./expense-form.component.scss'],
 })
 
-export class ExpenseFormComponent extends TransactionFormComponent implements OnInit {
+export class ExpenseFormComponent extends TransactionFormComponent {
   categories$: Observable<Category[]>;
   costSplit = 50;
 
@@ -35,7 +35,7 @@ export class ExpenseFormComponent extends TransactionFormComponent implements On
     super(data, dialog, formBuilder, snackBar, store);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.categories$ = this.store.select(getCategories);
 
     super.ngOnInit();

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { ExpenseFormComponent } from 'app/expense-form/expense-form.component';
 import { ImportComponent } from 'app/import/import.component';
@@ -36,17 +36,16 @@ export class DashboardComponent implements OnInit {
     private store: Store<AppState>,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.partner$ = this.store.select(getPartner);
     this.user$ = this.store.select(getCurrentUser);
 
-    this.expenses$ = this.store.select(getExpenses).pipe(map((expenses: Expense[]) => {
-      return expenses.sort(sortByDateDesc).slice(0, 6);
-    }));
+    this.expenses$ = this.store
+      .select(getExpenses)
+      .pipe(map((expenses: Expense[]) => (expenses.sort(sortByDateDesc).slice(0, 6))));
 
-    this.payments$ = this.store.select(getPayments).pipe(map((payments: Payment[]) => {
-      return payments.sort(sortByDateDesc).slice(0, 3);
-    }));
+    this.payments$ = this.store
+      .select(getPayments).pipe(map((payments: Payment[]) => (payments.sort(sortByDateDesc).slice(0, 3))));
 
     this.expensesService
       .query({ limit: 6 })
@@ -61,11 +60,11 @@ export class DashboardComponent implements OnInit {
       });
   }
 
-  addExpense() {
+  addExpense(): void {
     this.dialog.open(ExpenseFormComponent, { width: '500px', height: '500px' });
   }
 
-  importFromFile() {
+  importFromFile(): void {
     this.dialog.open(ImportComponent, { hasBackdrop: true, disableClose: true, width: '95%', height: '95%' });
   }
 }

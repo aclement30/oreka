@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     (this.authService as GoogleAuthService).waitForGoogleApi();
 
     this.translate.setDefaultLang('fr');
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  logout() {
+  logout(): void {
     this.authService.logoutUser().subscribe(() => {
       if (this.router.url !== '/login') {
         this.router.navigate(['/login']);

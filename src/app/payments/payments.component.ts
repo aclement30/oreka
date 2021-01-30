@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -33,15 +34,13 @@ export class PaymentsComponent implements OnInit {
     private translate: TranslateService,
   ) {}
 
-  ngOnInit() {
-    this.payments$ = this.store.select(getPayments).pipe(map((payments: Payment[]) => {
-      return payments.sort(sortByDateDesc);
-    }));
+  ngOnInit(): void {
+    this.payments$ = this.store.select(getPayments).pipe(map((payments: Payment[]) => (payments.sort(sortByDateDesc))));
 
     this._fetchTransactions();
   }
 
-  onScroll() {
+  onScroll(): void {
     if (this.lastPageReached) {
       return;
     }
