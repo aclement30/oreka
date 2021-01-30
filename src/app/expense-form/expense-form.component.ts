@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,6 +23,39 @@ import { Observable } from 'rxjs';
 export class ExpenseFormComponent extends TransactionFormComponent {
   categories$: Observable<Category[]>;
   costSplit = 50;
+
+  filteredDescriptionOptions: string[];
+  descriptionOptions: { [name: string]: number } = {
+    'Amazon': 4,
+    'BC Hydro': 2,
+    'Berrymobile': 1,
+    'Choices Market': 1,
+    'Costco': 4,
+    'Crave': 5,
+    'Crosstown Liquor Store': 1,
+    'Dalina': 10,
+    'Doordash': 10,
+    'Enerpro': 2,
+    'Evo': 7,
+    'Famous Foods': 1,
+    'Gourmet Warehouse': 1,
+    'IGA': 1,
+    'Legacy Liquor Store': 1,
+    'Les Amis Du Fromage': 1,
+    'Loblaws': 1,
+    'London Drugs': 4,
+    'Matchstick': 10,
+    'Nesters Market': 1,
+    'Netflix': 5,
+    'Skipper Otto': 1,
+    'Skipthedishes': 10,
+    'Square One Insurance': 4,
+    'Tacofino': 10,
+    'Telus': 3,
+    'Terra Breads': 1,
+    'T&T': 1,
+    'Urban Fare': 1,
+  };
 
   constructor(
     @Inject(MAT_DIALOG_DATA) protected data: any,
@@ -60,6 +94,21 @@ export class ExpenseFormComponent extends TransactionFormComponent {
       date: new FormControl(transactionDate, [Validators.required]),
       notes: transaction ? transaction.notes : null,
     });
+  }
+
+  onDescriptionChange(event): void {
+    const filterValue = event.target.value.toLowerCase();
+    this.filteredDescriptionOptions = Object.keys(this.descriptionOptions).filter(option => option.toLowerCase().startsWith(filterValue));
+  }
+
+  onDescriptionSelected(event: MatAutocompleteSelectedEvent): void {
+    const { value } = event.option;
+
+    const categoryId = this.descriptionOptions[value];
+
+    if (categoryId) {
+      this.form.patchValue({ categoryId });
+    }
   }
 
   onCostSplitChange(value: number): void {

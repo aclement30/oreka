@@ -12,7 +12,14 @@
 
       <div class="field -full-width">
         <label for="description">{{ 'common.description' | translate }}</label>
-        <input type="text" id="description" class="form-control" formControlName="description">
+
+        <input type="text" id="description" class="form-control" formControlName="description" [matAutocomplete]="auto" (input)="onDescriptionChange($event)">
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onDescriptionSelected($event)">
+          <mat-option *ngFor="let option of filteredDescriptionOptions" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
       </div>
     </div>
 
