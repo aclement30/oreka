@@ -1,6 +1,13 @@
 @import '~styles/variables';
 
 :host {
+  .date,
+  .radio {
+    label {
+      margin-bottom: 5px;
+    }
+  }
+
   .shares {
     .partners {
       display: flex;
