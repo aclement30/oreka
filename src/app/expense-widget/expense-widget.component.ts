@@ -12,7 +12,7 @@ import { getCategories } from 'app/store/categories.reducer';
 import { UpdateExpense } from 'app/store/transactions.actions';
 import { getCurrentUser } from 'app/store/user.reducer';
 import * as moment from 'moment';
-import { Subject } from 'rxjs/internal/Subject';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({

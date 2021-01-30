@@ -42,7 +42,6 @@ import { PaymentsService } from 'app/services/payments.service';
 import { SidebarComponent } from 'app/sidebar/sidebar.component';
 import { appInitialState, reducers } from 'app/store';
 import { TransactionsListComponent } from 'app/transactions-list/transactions-list.component';
-import 'hammerjs';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 export function HttpLoaderFactory(http: HttpClient) {
